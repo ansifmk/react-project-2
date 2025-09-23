@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/Authcontext";
-import Products from "../Components/Highliteproduct";
+import HighlightProducts from "../Components/Highliteproduct";
 
 const Home = () => {
   const { user, logout } = useContext(AuthContext);
@@ -60,7 +60,7 @@ const Home = () => {
       </section>
 
      
-      <Products />
+      <HighlightProducts />
 
       {/* Footer */}
       <footer className="bg-white border-t mt-auto">

@@ -116,11 +116,6 @@ const HighlightProducts = () => {
                           <span className="text-xs text-blue-600 font-medium bg-blue-50 px-2 py-1 rounded">
                             {product.category}
                           </span>
-                          <span className="text-xs text-gray-500">
-                            {product.count > 0
-                              ? `${product.count} in stock`
-                              : "Out of stock"}
-                          </span>
                         </div>
                         <h3 className="font-medium text-gray-900 mb-2 line-clamp-2">
                           {product.name}
@@ -132,20 +127,6 @@ const HighlightProducts = () => {
                           ₹{product.price.toLocaleString()}
                         </p>
                       </div>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          console.log(`Added ${product.name} to cart`);
-                        }}
-                        disabled={product.count === 0 || !product.isActive}
-                        className={`w-full py-2.5 px-4 rounded-full text-sm font-medium transition-colors ${
-                          product.count === 0 || !product.isActive
-                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                            : "bg-black text-white hover:bg-gray-800"
-                        }`}
-                      >
-                        {product.count === 0 ? "Out of Stock" : "Add to Cart"}
-                      </button>
                     </div>
                   </div>
                 </div>

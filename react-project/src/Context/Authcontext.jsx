@@ -1,8 +1,10 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
+// Create context
 export const AuthContext = createContext();
 
+// Auth provider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
@@ -23,10 +25,8 @@ export const AuthProvider = ({ children }) => {
 
       const cleanEmail = email.trim().toLowerCase();
 
-      // Fetch from JSON Server
-      const res = await axios.get(
-        `http://localhost:3001/users?email=${cleanEmail}`
-      );
+      // Fetch user from JSON Server
+      const res = await axios.get(`http://localhost:3001/users?email=${cleanEmail}`);
 
       if (res.data.length === 0) {
         throw new Error("User not found");
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }) => {
         throw new Error("Your account has been blocked. Contact admin.");
       }
 
-      // ✅ Save user
+      // ✅ Save user to state and localStorage
       setUser(foundUser);
       localStorage.setItem("user", JSON.stringify(foundUser));
 
@@ -65,8 +65,20 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  // Optional: refresh user from server (e.g., after updating wishlist/cart)
+  const refreshUser = async () => {
+    if (!user) return;
+    try {
+      const res = await axios.get(`http://localhost:3001/users/${user.id}`);
+      setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+    } catch (err) {
+      console.error("Error refreshing user:", err);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, refreshUser }}>
       {children}
     </AuthContext.Provider>
   );

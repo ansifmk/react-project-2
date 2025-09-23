@@ -9,15 +9,60 @@
       "isBlock": false,
       "cart": [
         {
-          "id": "p007",
-          "name": "Apple Airpods(Active Noise Cancellation)",
-          "description": "Sleek and lightweight Apple Airpods with Active Noise Cancellation for an immersive audio experience.",
-          "price": 99999,
-          "count": 10,
-          "highlight": false,
+          "id": "p003",
+          "name": "Apple AirPods 4",
+          "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
+          "price": 59999,
+          "count": 15,
+          "highlight": true,
           "category": "Earbuds",
           "images": [
-            "https://www.myg.in/images/thumbnails/500/500/detailed/85/61oCISLE_PL._SL1500__1xmk-qf_th1a-kv-removebg-preview.png.png"
+            "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:25:00.000Z",
+          "quantity": 2
+        },
+        {
+          "id": "p002",
+          "name": "iPhone 17 Pro",
+          "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+          "price": 119999,
+          "count": 8,
+          "highlight": true,
+          "category": "Smartphone",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:20:00.000Z",
+          "quantity": 1
+        },
+        {
+          "id": "p001",
+          "name": "Apple Watch Series 11",
+          "description": "Latest Apple Watch Series 11 with advanced health tracking and modern design.",
+          "price": 29999,
+          "count": 20,
+          "highlight": true,
+          "category": "Smartwatch",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/watch-card-40-s11-202509_GEO_IN?wid=680&hei=528&fmt=jpeg&qlt=90&.v=RGt6QnVpU0piVDZnRHZnWmNNbHB2NVZ0NEt5THRtSGFqY0t3ckRnOWhiKzJjSW42RjNkUmxsaVhqRzVyUDdYaTE1UUxLT2t0cW42N3FvQzVqaGhrVVdKOHR0K1huZGxiVGxWdmdkNTVhcE4rYWpGdS9XeFgvbS9ITnNYOEhYaG4"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:15:00.000Z",
+          "quantity": 1
+        },
+        {
+          "id": "p004",
+          "name": "Apple MacBook Air (M2, 2022)",
+          "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
+          "price": 99999,
+          "count": 10,
+          "highlight": true,
+          "category": "Laptop",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-card-40-macbook-air-202503?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=dzRRdVl2UHpmd3BrL2dpaGRDY2RKN3dnWXpNRUFSbE1veTFaYXZqWDhWZ2w2T29GWFRmcGlRaHRKa2ZZeG54SDRHeXB5TnVsU3R6Qjd0Y2JzbURyWE56dkQ1M2pkMXloY0FLTkxsc2xNQXArYWpGdS9XeFgvbS9ITnNYOEhYaG4"
           ],
           "isActive": true,
           "created_at": "2025-09-19T10:30:00.000Z",
@@ -44,13 +89,61 @@
       "id": "59c7",
       "name": "sd",
       "email": "sd@gmail.com",
-      "password": "123456",
+      "password": "654321",
       "role": "user",
       "isBlock": false,
-      "cart": [],
+      "cart": [
+        {
+          "id": "p003",
+          "name": "Apple AirPods 4",
+          "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
+          "price": 59999,
+          "count": 13,
+          "highlight": true,
+          "category": "Earbuds",
+          "images": [
+            "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:25:00.000Z",
+          "quantity": 1
+        },
+        {
+          "id": "p002",
+          "name": "iPhone 17 Pro",
+          "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+          "price": 189999,
+          "count": 8,
+          "highlight": true,
+          "category": "Smartphone",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:20:00.000Z",
+          "quantity": 1
+        },
+        {
+          "id": "p004",
+          "name": "Apple MacBook Air (M2, 2022)",
+          "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
+          "price": 99999,
+          "count": 9,
+          "highlight": true,
+          "category": "Laptop",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-card-40-macbook-air-202503?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=dzRRdVl2UHpmd3BrL2dpaGRDY2RKN3dnWXpNRUFSbE1veTFaYXZqWDhWZ2w2T29GWFRmcGlRaHRKa2ZZeG54SDRHeXB5TnVsU3R6Qjd0Y2JzbURyWE56dkQ1M2pkMXloY0FLTkxsc2xNQXArYWpGdS9XeFgvbS9ITnNYOEhYaG4"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:30:00.000Z",
+          "quantity": 1
+        }
+      ],
       "orders": [],
       "wishlist": [],
-      "created_at": "2025-09-17T06:54:52.570Z"
+      "created_at": "2025-09-17T06:54:52.570Z",
+      "phone": "9048126169",
+      "address": ""
     },
     {
       "id": "05b5",
@@ -131,7 +224,7 @@
       "name": "Apple Watch Series 11",
       "description": "Latest Apple Watch Series 11 with advanced health tracking and modern design.",
       "price": 29999,
-      "count": 20,
+      "count": 19,
       "highlight": true,
       "category": "Smartwatch",
       "images": [
@@ -144,8 +237,8 @@
       "id": "p002",
       "name": "iPhone 17 Pro",
       "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
-      "price": 119999,
-      "count": 10,
+      "price": 189999,
+      "count": 7,
       "highlight": true,
       "category": "Smartphone",
       "images": [
@@ -159,7 +252,7 @@
       "name": "Apple AirPods 4",
       "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
       "price": 59999,
-      "count": 15,
+      "count": 12,
       "highlight": true,
       "category": "Earbuds",
       "images": [
@@ -173,7 +266,7 @@
       "name": "Apple MacBook Air (M2, 2022)",
       "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
       "price": 99999,
-      "count": 10,
+      "count": 8,
       "highlight": true,
       "category": "Laptop",
       "images": [
@@ -201,7 +294,7 @@
       "name": "iPhone Air",
       "description": "iPhone Air – Ultra-light, sleek, and powerful. Enjoy a stunning Super Retina display, advanced dual-camera system, long-lasting battery, and lightning-fast performance—all in a compact, portable design.",
       "price": 89999,
-      "count": 10,
+      "count": 9,
       "highlight": false,
       "category": "Smartphone",
       "images": [
@@ -257,9 +350,9 @@
       "name": "Apple iphone 17",
       "description": "Sleek and lightweight Apple iphone 17 | 256 GB | White.",
       "price": 99999,
-      "count": 10,
+      "count": 9,
       "highlight": false,
-      "category": "Earbuds",
+      "category": "Smartphone",
       "images": [
         "https://www.myg.in/images/thumbnails/600/600/detailed/118/Apple-iphone-17-white-512gb-Front-Back-Side-View__1_.png.png"
       ],
@@ -393,7 +486,7 @@
       "created_at": "2025-09-19T10:30:00.000Z"
     },
     {
-      "id": "p0019",
+      "id": "p0020",
       "name": "Apple Macbook Pro M4",
       "description": "Apple Macbook Pro | M4 Pro | 14.2 inch | 24 GB | 1 TB | Silver | MX2F3HN/A.",
       "price": 59900,
