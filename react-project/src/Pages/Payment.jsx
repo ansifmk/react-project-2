@@ -61,55 +61,53 @@ const Payment = () => {
     setLoading(true);
 
     try {
-      // Reduce stock for each product
-      for (const item of user.cart) {
-        const productRes = await axios.get(
-          `http://localhost:3001/products/${item.id}`
-        );
-        const product = productRes.data;
-        const updatedCount = product.count - item.quantity;
+  // Reduce stock for each product
+  for (const item of user.cart) {
+    const productRes = await axios.get(`http://localhost:3001/products/${item.id}`);
+    const product = productRes.data;
+    const updatedCount = product.count - item.quantity;
 
-        await axios.put(`http://localhost:3001/products/${item.id}`, {
-          ...product,
-          count: updatedCount,
-        });
-      }
+    await axios.put(`http://localhost:3001/products/${item.id}`, {
+      ...product,
+      count: updatedCount,
+    });
+  }
 
-      // Save order history and clear cart
-      const newOrder = {
-        id: "order_" + new Date().getTime(),
-        items: user.cart,
-        total: totalPrice,
-        shippingInfo: {
-          fullName: form.fullName,
-          address: form.address,
-          city: form.city,
-          state: form.state,
-          zipCode: form.zipCode,
-        },
-        paymentMethod: paymentMethod,
-        created_at: new Date().toISOString(),
-        status: "pending"
-      };
+  // Save order history and clear cart
+  const newOrder = {
+    id: "order_" + new Date().getTime(),
+    items: user.cart,
+    total: totalPrice,
+    shippingInfo: {
+      fullName: form.fullName,
+      address: form.address,
+      city: form.city,
+      state: form.state,
+      zipCode: form.zipCode,
+    },
+    paymentMethod: paymentMethod,
+    created_at: new Date().toISOString(),
+    status: "pending"
+  };
 
-      const updatedUser = {
-        ...user,
-        orders: [...(user.orders || []), newOrder],
-        cart: [],
-      };
+  const updatedUser = {
+    ...user,
+    orders: [...(user.orders || []), newOrder],
+    cart: [],
+  };
 
-      await axios.put(`http://localhost:3001/users/${user.id}`, updatedUser);
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+  await axios.put(`http://localhost:3001/users/${user.id}`, updatedUser);
+  setUser(updatedUser);
+  localStorage.setItem("user", JSON.stringify(updatedUser));
 
-      alert("Order placed successfully!");
-      navigate("/products");
-    } catch (err) {
-      console.error("Payment error:", err);
-      alert("Payment failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  navigate("/order-success"); // Redirect here instead of alert
+} catch (err) {
+  console.error("Payment error:", err);
+  alert("Payment failed. Please try again.");
+} finally {
+  setLoading(false);
+}
+
   };
 
   return (

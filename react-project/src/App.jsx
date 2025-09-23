@@ -10,12 +10,15 @@ import Cart from "./Pages/Cart";
 import ProductDetails from "./Components/Productdetails";
 import Profile from "./Pages/Profile";
 import ChangePassword from "./Pages/ChangePassword";
+import Payment from "./Pages/Payment";
+import OrderSuccess from "./Pages/OrderSuccess"; // New page
+import MyOrders from "./Pages/MyOrders";
+
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./Context/Authcontext";
-import Payment from "./Pages/Payment";
 
 function AppContent() {
   const location = useLocation();
@@ -23,7 +26,6 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Hide navbar on login/register */}
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
       <Routes>
@@ -36,18 +38,11 @@ function AppContent() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/change-password" element={<ChangePassword />} />
-        {/* <Route path="/payment" element={<Payment />} /> */}
-        <Route
-          path="/my-orders"
-          element={
-            <div className="min-h-screen flex items-center justify-center">
-              <h1>My Orders Page - Coming Soon</h1>
-            </div>
-          }
-        />
+        <Route path="/payment" element={<Payment />} />
+        <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/my-orders" element={<MyOrders />} />
       </Routes>
 
-      {/* Toast notifications */}
       <ToastContainer
         position="top-right"
         autoClose={2000}
