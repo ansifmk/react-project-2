@@ -37,12 +37,16 @@ const ProductDetails = () => {
           )
         : [...(user.cart || []), { ...product, quantity: 1 }];
 
-      const updatedUser = { ...user, cart: updatedCart };
+      const updatedUser = {
+        ...user,
+        cart: updatedCart,
+        orders: user.orders || [], // explicitly preserve orders
+      };
 
+      // PATCH user cart and product stock only
       await Promise.all([
-        axios.put(`http://localhost:3001/users/${user.id}`, updatedUser),
-        axios.put(`http://localhost:3001/products/${product.id}`, {
-          ...product,
+        axios.patch(`http://localhost:3001/users/${user.id}`, { cart: updatedCart }),
+        axios.patch(`http://localhost:3001/products/${product.id}`, {
           count: Math.max(0, product.count - 1),
         }),
       ]);
@@ -66,10 +70,15 @@ const ProductDetails = () => {
       ? user.wishlist.filter((item) => item.id !== product.id)
       : [...(user.wishlist || []), product];
 
-    const updatedUser = { ...user, wishlist: updatedWishlist };
+    const updatedUser = {
+      ...user,
+      wishlist: updatedWishlist,
+      orders: user.orders || [], // preserve orders
+      cart: user.cart || [],
+    };
 
     try {
-      await axios.put(`http://localhost:3001/users/${user.id}`, updatedUser);
+      await axios.patch(`http://localhost:3001/users/${user.id}`, { wishlist: updatedWishlist });
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
       toast[isInWishlist ? "warning" : "success"](

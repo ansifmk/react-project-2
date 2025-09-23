@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const Cart = () => {
   const { user, setUser } = useContext(AuthContext);
   const [updating, setUpdating] = useState({});
-  const [limitReached, setLimitReached] = useState({}); // To show message when max quantity reached
+  const [limitReached, setLimitReached] = useState({});
   const navigate = useNavigate();
 
   if (!user || !user.cart || user.cart.length === 0) {
@@ -32,38 +32,29 @@ const Cart = () => {
       if (!cartItem) return;
 
       let updatedQuantity = cartItem.quantity + delta;
-
-      // Max quantity limit = 10
       if (updatedQuantity > 10) {
         updatedQuantity = 10;
         setLimitReached((prev) => ({ ...prev, [productId]: true }));
       }
 
-      let updatedCart;
-      if (updatedQuantity <= 0) {
-        updatedCart = user.cart.filter((item) => item.id !== productId);
-      } else {
-        updatedCart = user.cart.map((item) =>
-          item.id === productId ? { ...item, quantity: updatedQuantity } : item
-        );
-      }
+      const updatedCart =
+        updatedQuantity <= 0
+          ? user.cart.filter((item) => item.id !== productId)
+          : user.cart.map((item) =>
+              item.id === productId ? { ...item, quantity: updatedQuantity } : item
+            );
 
+      // Get product details to update stock
       const productRes = await axios.get(`http://localhost:3001/products/${productId}`);
       const product = productRes.data;
 
-      // Only reduce stock by actual applied delta
       const appliedDelta = updatedQuantity - cartItem.quantity;
-      const updatedCount = product.count - appliedDelta;
+      const updatedCount = Math.max(product.count - appliedDelta, 0);
 
+      // Only update cart and stock, NOT orders
       await Promise.all([
-        axios.put(`http://localhost:3001/users/${user.id}`, {
-          ...user,
-          cart: updatedCart,
-        }),
-        axios.put(`http://localhost:3001/products/${productId}`, {
-          ...product,
-          count: updatedCount,
-        }),
+        axios.patch(`http://localhost:3001/users/${user.id}`, { cart: updatedCart }),
+        axios.patch(`http://localhost:3001/products/${productId}`, { count: updatedCount }),
       ]);
 
       const updatedUser = { ...user, cart: updatedCart };
@@ -81,21 +72,18 @@ const Cart = () => {
     setUpdating((prev) => ({ ...prev, [productId]: true }));
 
     try {
-      const updatedCart = user.cart.filter((item) => item.id !== productId);
       const cartItem = user.cart.find((item) => item.id === productId);
+      if (!cartItem) return;
+
       const productRes = await axios.get(`http://localhost:3001/products/${productId}`);
       const product = productRes.data;
       const updatedCount = product.count + cartItem.quantity;
 
+      const updatedCart = user.cart.filter((item) => item.id !== productId);
+
       await Promise.all([
-        axios.put(`http://localhost:3001/users/${user.id}`, {
-          ...user,
-          cart: updatedCart,
-        }),
-        axios.put(`http://localhost:3001/products/${productId}`, {
-          ...product,
-          count: updatedCount,
-        }),
+        axios.patch(`http://localhost:3001/users/${user.id}`, { cart: updatedCart }),
+        axios.patch(`http://localhost:3001/products/${productId}`, { count: updatedCount }),
       ]);
 
       const updatedUser = { ...user, cart: updatedCart };
@@ -113,7 +101,6 @@ const Cart = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
-      {/* Back to Products Button */}
       <div className="mb-6">
         <button
           onClick={() => navigate("/products")}
@@ -124,7 +111,6 @@ const Cart = () => {
       </div>
 
       <div className="flex flex-col lg:flex-row gap-8 max-w-7xl mx-auto">
-        {/* Left: Cart Items */}
         <div className="flex-1">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
@@ -135,7 +121,6 @@ const Cart = () => {
               {user.cart.map((item) => (
                 <div key={item.id} className="p-6">
                   <div className="flex gap-4">
-                    {/* Product Image */}
                     <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                       <img
                         src={item.images?.[0] || "/placeholder-image.jpg"}
@@ -144,24 +129,17 @@ const Cart = () => {
                       />
                     </div>
 
-                    {/* Product Details */}
                     <div className="flex-1 min-w-0">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900 mb-1">{item.name}</h3>
-                          <p className="text-sm text-gray-600 mb-2">{item.description || "No description available"}</p>
-
-                          {item.color && <span className="text-sm text-gray-600 mr-3">Color: {item.color}</span>}
-                          {item.size && <span className="text-sm text-gray-600">Size: {item.size}</span>}
-
-                          {item.count !== undefined && (
-                            <p className="text-xs text-red-600 font-medium mt-1">
-                              {item.count} LEFT IN STOCK
-                            </p>
-                          )}
+                          <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            {item.name}
+                          </h3>
+                          <p className="text-sm text-gray-600 mb-2">
+                            {item.description || "No description available"}
+                          </p>
                         </div>
 
-                        {/* Price */}
                         <div className="text-right">
                           <p className="text-lg font-bold text-gray-900">
                             ₹{item.price.toLocaleString()}
@@ -169,7 +147,6 @@ const Cart = () => {
                         </div>
                       </div>
 
-                      {/* Quantity Controls and Remove */}
                       <div className="flex justify-between items-center mt-4">
                         <div className="flex items-center gap-2 relative">
                           <button
@@ -182,11 +159,7 @@ const Cart = () => {
                           <span className="px-3 text-gray-700 font-medium">{item.quantity}</span>
                           <button
                             onClick={() => updateCartItem(item.id, 1)}
-                            disabled={
-                              updating[item.id] ||
-                              (item.count !== undefined && item.quantity >= item.count) ||
-                              item.quantity >= 10
-                            }
+                            disabled={updating[item.id] || item.quantity >= 10}
                             className="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-md hover:bg-gray-200 transition text-gray-600"
                           >
                             +
@@ -214,7 +187,6 @@ const Cart = () => {
           </div>
         </div>
 
-        {/* Right: Order Summary */}
         <div className="w-full lg:w-96 flex-shrink-0">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 sticky top-6">
             <div className="px-6 py-4 border-b border-gray-200">
@@ -224,11 +196,13 @@ const Cart = () => {
             <div className="p-6 space-y-4">
               <div className="flex justify-between items-center">
                 <span className="text-lg font-bold text-gray-900">TOTAL</span>
-                <span className="text-lg font-bold text-gray-900">₹{totalPrice.toLocaleString()}</span>
+                <span className="text-lg font-bold text-gray-900">
+                  ₹{totalPrice.toLocaleString()}
+                </span>
               </div>
 
               <button
-                onClick={() => alert("Proceed to checkout")}
+                onClick={() => navigate("/payment")}
                 className="w-full bg-black text-white px-6 py-3 rounded-lg font-semibold shadow-sm hover:bg-gray-800 transition mt-6"
               >
                 Proceed to Checkout

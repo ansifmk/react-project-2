@@ -43,6 +43,42 @@ const Wishlist = () => {
     }
   };
 
+  // ✅ Add to Cart
+  const addToCart = async (product) => {
+    try {
+      let updatedCart = user.cart || [];
+      const existingItem = updatedCart.find((item) => item.id === product.id);
+
+      if (existingItem) {
+        // Increase quantity if already in cart
+        updatedCart = updatedCart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        // Add new product with quantity = 1
+        updatedCart = [...updatedCart, { ...product, quantity: 1 }];
+      }
+
+      await axios.put(`http://localhost:3001/users/${user.id}`, {
+        ...user,
+        cart: updatedCart,
+      });
+
+      const updatedUser = { ...user, cart: updatedCart };
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    } catch (err) {
+      console.error("Error adding to cart:", err);
+    }
+  };
+
+  // ✅ Check if product is already in cart
+  const isInCart = (productId) => {
+    return user?.cart?.some((item) => item.id === productId);
+  };
+
   if (loading)
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -99,15 +135,38 @@ const Wishlist = () => {
                     ₹{product.price.toLocaleString()}
                   </p>
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    removeFromWishlist(product.id);
-                  }}
-                  className="w-full py-2.5 px-4 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors"
-                >
-                  Remove
-                </button>
+                <div className="flex gap-2">
+                  {isInCart(product.id) ? (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate("/cart");
+                      }}
+                      className="flex-1 py-2.5 px-4 rounded-full text-sm font-medium bg-green-500 text-white hover:bg-green-600 transition-colors"
+                    >
+                      Go to Cart
+                    </button>
+                  ) : (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        addToCart(product);
+                      }}
+                      className="flex-1 py-2.5 px-4 rounded-full text-sm font-medium bg-black text-white hover:bg-gray-600 transition-colors"
+                    >
+                      Add to Cart
+                    </button>
+                  )}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeFromWishlist(product.id);
+                    }}
+                    className="flex-1 py-2.5 px-4 rounded-full text-sm font-medium bg-red-500 text-white hover:bg-red-600 transition-colors"
+                  >
+                    Remove
+                  </button>
+                </div>
               </div>
             </div>
           ))}

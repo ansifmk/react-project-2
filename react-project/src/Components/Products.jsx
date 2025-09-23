@@ -2,6 +2,8 @@ import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Context/Authcontext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -9,7 +11,7 @@ const Products = () => {
   const [error, setError] = useState(null);
   const [addingToCart, setAddingToCart] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState(""); // ✅ one single filter
+  const [filter, setFilter] = useState("");
 
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
@@ -29,7 +31,7 @@ const Products = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // ✅ Filter products
+  // Filter products
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()
@@ -58,81 +60,89 @@ const Products = () => {
 
   const toggleWishlist = async (productId, e) => {
     e.stopPropagation();
-    if (!user) {
-      alert("Please login to add items to wishlist");
-      return;
-    }
+    if (!user) return toast.info("Please login to add items to wishlist");
+
     try {
       const isInWishlist = user.wishlist?.some((item) => item.id === productId);
       let updatedWishlist;
+      let productName;
+
       if (isInWishlist) {
+        const removedProduct = user.wishlist.find((item) => item.id === productId);
+        productName = removedProduct?.name || "Product";
         updatedWishlist = user.wishlist.filter((item) => item.id !== productId);
       } else {
         const productToAdd = products.find((product) => product.id === productId);
+        productName = productToAdd?.name || "Product";
         updatedWishlist = [...(user.wishlist || []), productToAdd];
       }
+
+      // Only update wishlist in backend
+      await axios.patch(`http://localhost:3001/users/${user.id}`, {
+        wishlist: updatedWishlist,
+      });
+
       const updatedUser = { ...user, wishlist: updatedWishlist };
-      await axios.put(`http://localhost:3001/users/${user.id}`, updatedUser);
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      toast[isInWishlist ? "warning" : "success"](
+        isInWishlist
+          ? `${productName} removed from wishlist`
+          : `${productName} added to wishlist`
+      );
     } catch (err) {
       console.error("Error updating wishlist:", err);
-      alert("Failed to update wishlist. Please try again.");
+      toast.error("Failed to update wishlist. Please try again.");
     }
   };
 
   const addToCart = async (product, e) => {
     e.stopPropagation();
-    if (!user) {
-      alert("Please login to add items to cart");
-      return;
-    }
-    if (product.count === 0) {
-      alert("This product is out of stock");
-      return;
-    }
-    setAddingToCart((prev) => ({ ...prev, [product.id]: true }));
-    try {
-      const existingCartItem = user.cart?.find((item) => item.id === product.id);
-      let updatedCart;
-      if (existingCartItem) {
-        updatedCart = user.cart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: (item.quantity || 1) + 1 }
-            : item
-        );
-      } else {
-        updatedCart = [...(user.cart || []), { ...product, quantity: 1 }];
-      }
+    if (!user) return toast.info("Please login to add items to cart");
+    if (product.count === 0) return toast.warning("This product is out of stock");
 
+    setAddingToCart((prev) => ({ ...prev, [product.id]: true }));
+
+    try {
+      // Update cart only
+      const existingCartItem = user.cart?.find((item) => item.id === product.id);
+      const updatedCart = existingCartItem
+        ? user.cart.map((item) =>
+            item.id === product.id
+              ? { ...item, quantity: (item.quantity || 1) + 1 }
+              : item
+          )
+        : [...(user.cart || []), { ...product, quantity: 1 }];
+
+      // Update products count locally
       const updatedProducts = products.map((p) =>
         p.id === product.id ? { ...p, count: Math.max(0, p.count - 1) } : p
       );
 
+      // Only send cart to backend, leave orders untouched
+      await axios.patch(`http://localhost:3001/users/${user.id}`, {
+        cart: updatedCart,
+      });
+
+      await axios.patch(`http://localhost:3001/products/${product.id}`, {
+        count: Math.max(0, product.count - 1),
+      });
+
       const updatedUser = { ...user, cart: updatedCart };
-
-      await Promise.all([
-        axios.put(`http://localhost:3001/users/${user.id}`, updatedUser),
-        axios.put(`http://localhost:3001/products/${product.id}`, {
-          ...product,
-          count: Math.max(0, product.count - 1),
-        }),
-      ]);
-
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
       setProducts(updatedProducts);
 
-      alert(`${product.name} added to cart!`);
+      toast.success(`${product.name} added to cart!`);
     } catch (err) {
       console.error("Error adding to cart:", err);
-      alert("Failed to add product to cart. Please try again.");
+      toast.error("Failed to add product to cart. Please try again.");
     } finally {
       setAddingToCart((prev) => ({ ...prev, [product.id]: false }));
     }
   };
 
-  // Loading / Error UI
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -143,6 +153,7 @@ const Products = () => {
       </div>
     );
   }
+
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -161,6 +172,8 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <ToastContainer position="top-right" autoClose={3000} />
+
       {/* Hero */}
       <section
         className="bg-white py-16 shadow-sm relative"
@@ -168,7 +181,7 @@ const Products = () => {
           backgroundImage: "url('/hero_endframe__xdzisdq1ppem_xlarge_2x.jpg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
-          minHeight: "300px",
+          minHeight: "200px",
         }}
       >
         <div className="absolute inset-0 bg-white/70"></div>
@@ -184,7 +197,6 @@ const Products = () => {
               {filteredProducts.length} products available
             </p>
 
-            {/* Search Input */}
             <div className="w-full max-w-2xl mx-auto mt-8">
               <input
                 type="text"
@@ -195,7 +207,6 @@ const Products = () => {
               />
             </div>
 
-            {/* ✅ Single Filter Dropdown */}
             <div className="flex justify-center mt-6">
               <select
                 value={filter}
@@ -257,7 +268,6 @@ const Products = () => {
                     className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow group cursor-pointer flex flex-col relative"
                     onClick={() => navigate(`/product/${product.id}`)}
                   >
-                    {/* Wishlist */}
                     <button
                       onClick={(e) => toggleWishlist(product.id, e)}
                       className="absolute top-3 right-3 p-2 rounded-full bg-white shadow z-10"
@@ -276,7 +286,6 @@ const Products = () => {
                       </svg>
                     </button>
 
-                    {/* Product Image */}
                     <div className="p-4 flex-1 flex flex-col">
                       <div className="aspect-square bg-gray-50 rounded-lg mb-4 overflow-hidden">
                         <img
@@ -289,7 +298,6 @@ const Products = () => {
                         />
                       </div>
 
-                      {/* Info */}
                       <div className="flex-1 flex flex-col justify-between">
                         <div className="mb-4">
                           <div className="flex items-center justify-between mb-1">
@@ -313,7 +321,6 @@ const Products = () => {
                           </p>
                         </div>
 
-                        {/* Add to Cart */}
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
