@@ -11,14 +11,15 @@ import ProductDetails from "./Components/Productdetails";
 import Profile from "./Pages/Profile";
 import ChangePassword from "./Pages/ChangePassword";
 import Payment from "./Pages/Payment";
-import OrderSuccess from "./Pages/OrderSuccess"; // New page
+import OrderSuccess from "./Pages/OrderSuccess";
 import MyOrders from "./Pages/MyOrders";
-
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./Context/Authcontext";
+import ProtectedRoute from "./Context/ProtectedRoute"; // ✅ new import
+import About from "./Pages/About";
 
 function AppContent() {
   const location = useLocation();
@@ -29,18 +30,83 @@ function AppContent() {
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
       <Routes>
+        {/* Public routes */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/my-orders" element={<MyOrders />} />
+
+        {/* User Protected routes */}
+        <Route
+          path="/wishlist"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <Wishlist />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/cart"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <Cart />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/change-password"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <ChangePassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <Payment />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/order-success"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <OrderSuccess />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-orders"
+          element={
+            <ProtectedRoute allowedRoles={["user", "admin"]}>
+              <MyOrders />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Example Admin-only route (you can add Admin Dashboard later) */}
+        {/* 
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        */}
+        <Route path="/about" element={<About />} />
       </Routes>
 
       <ToastContainer

@@ -20,6 +20,7 @@ const Payment = () => {
   });
   const [paymentMethod, setPaymentMethod] = useState("cash");
   const [loading, setLoading] = useState(false);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(-1); // -1 means new address
 
   if (!user || !user.cart || user.cart.length === 0) {
     return (
@@ -41,11 +42,39 @@ const Payment = () => {
   );
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "zipCode" && !/^\d*$/.test(value)) return; // numbers only
+    setForm({ ...form, [name]: value });
+  };
+
+  const handleAddressSelect = (index) => {
+    setSelectedAddressIndex(index);
+    if (index === -1) {
+      // New address
+      setForm({ ...form, address: "", city: "", state: "", zipCode: "" });
+    } else {
+      const addr = user.addresses[index]; // object
+      setForm({
+        ...form,
+        address: addr.address,
+        city: addr.city,
+        state: addr.state,
+        zipCode: addr.zipCode,
+      });
+    }
   };
 
   const handlePayment = async () => {
-    // Validation based on payment method
+    if (form.email && !/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(form.email)) {
+      alert("Please enter a valid Gmail address (must end with @gmail.com)");
+      return;
+    }
+
+    if (!/^\d+$/.test(form.zipCode)) {
+      alert("ZIP code must contain only numbers");
+      return;
+    }
+
     if (paymentMethod === "card") {
       if (!form.cardName || !form.cardNumber || !form.expiry || !form.cvv) {
         alert("Please fill all payment details");
@@ -61,59 +90,53 @@ const Payment = () => {
     setLoading(true);
 
     try {
-  // Reduce stock for each product
-  for (const item of user.cart) {
-    const productRes = await axios.get(`http://localhost:3001/products/${item.id}`);
-    const product = productRes.data;
-    const updatedCount = product.count - item.quantity;
+      // Reduce stock for each product
+      for (const item of user.cart) {
+        const productRes = await axios.get(`http://localhost:3001/products/${item.id}`);
+        const product = productRes.data;
+        const updatedCount = product.count - item.quantity;
+        await axios.put(`http://localhost:3001/products/${item.id}`, { ...product, count: updatedCount });
+      }
 
-    await axios.put(`http://localhost:3001/products/${item.id}`, {
-      ...product,
-      count: updatedCount,
-    });
-  }
+      // Save order
+      const newOrder = {
+        id: "order_" + new Date().getTime(),
+        items: user.cart,
+        total: totalPrice,
+        shippingInfo: {
+          fullName: form.fullName,
+          address: form.address,
+          city: form.city,
+          state: form.state,
+          zipCode: form.zipCode,
+        },
+        paymentMethod,
+        created_at: new Date().toISOString(),
+        status: "pending",
+      };
 
-  // Save order history and clear cart
-  const newOrder = {
-    id: "order_" + new Date().getTime(),
-    items: user.cart,
-    total: totalPrice,
-    shippingInfo: {
-      fullName: form.fullName,
-      address: form.address,
-      city: form.city,
-      state: form.state,
-      zipCode: form.zipCode,
-    },
-    paymentMethod: paymentMethod,
-    created_at: new Date().toISOString(),
-    status: "pending"
-  };
+      const updatedUser = {
+        ...user,
+        orders: [...(user.orders || []), newOrder],
+        cart: [],
+      };
 
-  const updatedUser = {
-    ...user,
-    orders: [...(user.orders || []), newOrder],
-    cart: [],
-  };
+      await axios.put(`http://localhost:3001/users/${user.id}`, updatedUser);
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
 
-  await axios.put(`http://localhost:3001/users/${user.id}`, updatedUser);
-  setUser(updatedUser);
-  localStorage.setItem("user", JSON.stringify(updatedUser));
-
-  navigate("/order-success"); // Redirect here instead of alert
-} catch (err) {
-  console.error("Payment error:", err);
-  alert("Payment failed. Please try again.");
-} finally {
-  setLoading(false);
-}
-
+      navigate("/order-success");
+    } catch (err) {
+      console.error("Payment error:", err);
+      alert("Payment failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
-        
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left: Shipping and Payment Information */}
           <div className="flex-1 space-y-8">
@@ -144,61 +167,85 @@ const Payment = () => {
                     value={form.email}
                     onChange={handleChange}
                     className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Enter email"
+                    placeholder="Enter email (must end with @gmail.com)"
                   />
                 </div>
+
+                {/* Address Selection */}
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Address*
+                    Select Address*
                   </label>
-                  <input
-                    type="text"
-                    name="address"
-                    value={form.address}
-                    onChange={handleChange}
+                  <select
                     className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Enter address"
-                  />
+                    value={selectedAddressIndex}
+                    onChange={(e) => handleAddressSelect(Number(e.target.value))}
+                  >
+                    <option value={-1}>Use new address</option>
+                    {user.addresses?.map((addr, index) => (
+                      <option key={index} value={index}>
+                        {`${addr.address}, ${addr.city}, ${addr.state}, ${addr.zipCode}`}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    City*
-                  </label>
-                  <input
-                    type="text"
-                    name="city"
-                    value={form.city}
-                    onChange={handleChange}
-                    className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Enter city"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    State*
-                  </label>
-                  <input
-                    type="text"
-                    name="state"
-                    value={form.state}
-                    onChange={handleChange}
-                    className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Enter state"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    ZIP Code*
-                  </label>
-                  <input
-                    type="text"
-                    name="zipCode"
-                    value={form.zipCode}
-                    onChange={handleChange}
-                    className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
-                    placeholder="Enter ZIP code"
-                  />
-                </div>
+
+                {selectedAddressIndex === -1 && (
+                  <>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Address*
+                      </label>
+                      <input
+                        type="text"
+                        name="address"
+                        value={form.address}
+                        onChange={handleChange}
+                        className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Enter address"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        City*
+                      </label>
+                      <input
+                        type="text"
+                        name="city"
+                        value={form.city}
+                        onChange={handleChange}
+                        className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Enter city"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        State*
+                      </label>
+                      <input
+                        type="text"
+                        name="state"
+                        value={form.state}
+                        onChange={handleChange}
+                        className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Enter state"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        ZIP Code*
+                      </label>
+                      <input
+                        type="text"
+                        name="zipCode"
+                        value={form.zipCode}
+                        onChange={handleChange}
+                        className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-black"
+                        placeholder="Enter ZIP code (numbers only)"
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
 
@@ -208,7 +255,7 @@ const Payment = () => {
             {/* Payment Method */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <h2 className="text-2xl font-bold mb-4">Payment Method</h2>
-              
+
               {/* Cash on Delivery */}
               <div className="flex items-center space-x-3 p-4 border rounded-lg mb-3 hover:bg-gray-50 cursor-pointer">
                 <input
@@ -220,7 +267,9 @@ const Payment = () => {
                 />
                 <div className="flex-1">
                   <span className="font-semibold">Cash on Delivery</span>
-                  <p className="text-sm text-gray-600">Pay when you receive your order</p>
+                  <p className="text-sm text-gray-600">
+                    Pay when you receive your order
+                  </p>
                 </div>
               </div>
 
@@ -235,7 +284,9 @@ const Payment = () => {
                 />
                 <div className="flex-1">
                   <span className="font-semibold">Credit/Debit Card</span>
-                  <p className="text-sm text-gray-600">Pay securely with your card</p>
+                  <p className="text-sm text-gray-600">
+                    Pay securely with your card
+                  </p>
                 </div>
               </div>
 
@@ -250,11 +301,13 @@ const Payment = () => {
                 />
                 <div className="flex-1">
                   <span className="font-semibold">Uff Payment</span>
-                  <p className="text-sm text-gray-600">Pay instantly via Uff apps</p>
+                  <p className="text-sm text-gray-600">
+                    Pay instantly via Uff apps
+                  </p>
                 </div>
               </div>
 
-              {/* Card Details (shown only when card is selected) */}
+              {/* Card Details (only when card selected) */}
               {paymentMethod === "card" && (
                 <div className="mt-6 p-4 border rounded-lg bg-gray-50">
                   <h3 className="font-semibold mb-4">Card Details</h3>
@@ -305,13 +358,13 @@ const Payment = () => {
           <div className="w-full lg:w-96 flex-shrink-0">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
               <h2 className="text-2xl font-bold mb-6">Order Summary</h2>
-              
+
               {/* Product List */}
               <div className="space-y-4 mb-6">
                 {user.cart.map((item) => (
                   <div key={item.id} className="flex items-center space-x-3">
-                    <img 
-                      src={item.images[0]} 
+                    <img
+                      src={item.images[0]}
                       alt={item.name}
                       className="w-12 h-12 object-cover rounded"
                     />
@@ -319,7 +372,9 @@ const Payment = () => {
                       <p className="font-medium text-sm">{item.name}</p>
                       <p className="text-gray-600 text-sm">Qty: {item.quantity}</p>
                     </div>
-                    <span className="font-semibold">₹{(item.price * item.quantity).toLocaleString()}</span>
+                    <span className="font-semibold">
+                      ₹{(item.price * item.quantity).toLocaleString()}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -340,7 +395,6 @@ const Payment = () => {
                 </div>
               </div>
 
-              {/* Payment Note */}
               {paymentMethod === "cash" && (
                 <p className="text-gray-600 text-sm mt-4 text-center">
                   You will pay when you receive your order

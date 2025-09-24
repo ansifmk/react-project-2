@@ -1,15 +1,26 @@
 // src/pages/Login.jsx
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/Authcontext";
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
+  // 🚫 If already logged in, redirect away
+  useEffect(() => {
+    if (user) {
+      if (user.role === "admin") {
+        navigate("/dashboard", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
+    }
+  }, [user, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,9 +32,9 @@ const Login = () => {
       const loggedInUser = result.user;
 
       if (loggedInUser.role === "admin") {
-        navigate("/dashboard");
+        navigate("/dashboard", { replace: true });
       } else {
-        navigate("/");
+        navigate("/", { replace: true });
       }
     } else {
       setError(result.message);

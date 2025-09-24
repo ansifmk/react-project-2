@@ -1,61 +1,6 @@
 {
   "users": [
     {
-      "id": "186f",
-      "name": "Ansif",
-      "email": "mohammedansifmka@gmail.com",
-      "cart": [],
-      "wishlist": [],
-      "orders": [
-        {
-          "id": "order_1758630346967",
-          "items": [
-            {
-              "id": "p003",
-              "name": "Apple AirPods 4",
-              "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
-              "price": 59999,
-              "count": 12,
-              "highlight": true,
-              "category": "Earbuds",
-              "images": [
-                "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
-              ],
-              "isActive": true,
-              "created_at": "2025-09-19T10:25:00.000Z",
-              "quantity": 1
-            },
-            {
-              "id": "p004",
-              "name": "Apple MacBook Air (M2, 2022)",
-              "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
-              "price": 99999,
-              "count": 8,
-              "highlight": true,
-              "category": "Laptop",
-              "images": [
-                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-card-40-macbook-air-202503?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=dzRRdVl2UHpmd3BrL2dpaGRDY2RKN3dnWXpNRUFSbE1veTFaYXZqWDhWZ2w2T29GWFRmcGlRaHRKa2ZZeG54SDRHeXB5TnVsU3R6Qjd0Y2JzbURyWE56dkQ1M2pkMXloY0FLTkxsc2xNQXArYWpGdS9XeFgvbS9ITnNYOEhYaG4"
-              ],
-              "isActive": true,
-              "created_at": "2025-09-19T10:30:00.000Z",
-              "quantity": 1
-            }
-          ],
-          "total": 159998,
-          "shippingInfo": {
-            "fullName": "ansif",
-            "address": "nbtyntynyt",
-            "city": "aa",
-            "state": "ntyntyn",
-            "zipCode": "235454"
-          },
-          "paymentMethod": "cash",
-          "created_at": "2025-09-23T12:25:46.967Z",
-          "status": "cancelled"
-        }
-      ]
-    },
-    {
       "id": "ec4f",
       "name": "rr",
       "email": "rftg@gmail.com",
@@ -74,28 +19,75 @@
       "password": "654321",
       "role": "user",
       "isBlock": false,
-      "cart": [],
+      "cart": [
+        {
+          "id": "p003",
+          "name": "Apple AirPods 4",
+          "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
+          "price": 59999,
+          "count": 11,
+          "highlight": true,
+          "category": "Earbuds",
+          "images": [
+            "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:25:00.000Z",
+          "quantity": 1
+        }
+      ],
       "orders": [
         {
-          "id": "order_1758630793233",
+          "id": "order_1758705465093",
           "items": [
             {
-              "id": "p001",
-              "name": "Apple Watch Series 11",
-              "description": "Latest Apple Watch Series 11 with advanced health tracking and modern design.",
-              "price": 29999,
-              "count": 20,
+              "id": "p004",
+              "name": "Apple MacBook Air (M2, 2022)",
+              "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
+              "price": 99999,
+              "count": 8,
               "highlight": true,
-              "category": "Smartwatch",
+              "category": "Laptop",
               "images": [
-                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/watch-card-40-s11-202509_GEO_IN?wid=680&hei=528&fmt=jpeg&qlt=90&.v=RGt6QnVpU0piVDZnRHZnWmNNbHB2NVZ0NEt5THRtSGFqY0t3ckRnOWhiKzJjSW42RjNkUmxsaVhqRzVyUDdYaTE1UUxLT2t0cW42N3FvQzVqaGhrVVdKOHR0K1huZGxiVGxWdmdkNTVhcE4rYWpGdS9XeFgvbS9ITnNYOEhYaG4"
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-card-40-macbook-air-202503?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=dzRRdVl2UHpmd3BrL2dpaGRDY2RKN3dnWXpNRUFSbE1veTFaYXZqWDhWZ2w2T29GWFRmcGlRaHRKa2ZZeG54SDRHeXB5TnVsU3R6Qjd0Y2JzbURyWE56dkQ1M2pkMXloY0FLTkxsc2xNQXArYWpGdS9XeFgvbS9ITnNYOEhYaG4"
               ],
               "isActive": true,
-              "created_at": "2025-09-19T10:15:00.000Z",
+              "created_at": "2025-09-19T10:30:00.000Z",
               "quantity": 1
             }
           ],
-          "total": 29999,
+          "total": 99999,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "aasa",
+            "city": "btbtyntyn",
+            "state": "ntyntyn",
+            "zipCode": "22838"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-24T09:17:45.093Z",
+          "status": "cancelled"
+        },
+        {
+          "id": "order_1758710240846",
+          "items": [
+            {
+              "id": "p002",
+              "name": "iPhone 17 Pro",
+              "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+              "price": 189999,
+              "count": 7,
+              "highlight": true,
+              "category": "Smartphone",
+              "images": [
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:20:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 189999,
           "shippingInfo": {
             "fullName": "ansif",
             "address": "nbtyntynyt",
@@ -104,14 +96,84 @@
             "zipCode": "235454"
           },
           "paymentMethod": "cash",
-          "created_at": "2025-09-23T12:33:13.234Z",
-          "status": "cancelled"
+          "created_at": "2025-09-24T10:37:20.846Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1758715748754",
+          "items": [
+            {
+              "id": "p004",
+              "name": "Apple MacBook Air (M2, 2022)",
+              "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
+              "price": 99999,
+              "count": 7,
+              "highlight": true,
+              "category": "Laptop",
+              "images": [
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-card-40-macbook-air-202503?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=dzRRdVl2UHpmd3BrL2dpaGRDY2RKN3dnWXpNRUFSbE1veTFaYXZqWDhWZ2w2T29GWFRmcGlRaHRKa2ZZeG54SDRHeXB5TnVsU3R6Qjd0Y2JzbURyWE56dkQ1M2pkMXloY0FLTkxsc2xNQXArYWpGdS9XeFgvbS9ITnNYOEhYaG4"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:30:00.000Z",
+              "quantity": 5
+            }
+          ],
+          "total": 499995,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "fdsf",
+            "city": "dzfdz",
+            "state": "zvz",
+            "zipCode": "45654343"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-24T12:09:08.754Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1758716074862",
+          "items": [
+            {
+              "id": "p002",
+              "name": "iPhone 17 Pro",
+              "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+              "price": 189999,
+              "count": 5,
+              "highlight": true,
+              "category": "Smartphone",
+              "images": [
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:20:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 189999,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "nbtyntynyt",
+            "city": "ververv",
+            "state": "rverver",
+            "zipCode": "235454"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-24T12:14:34.862Z",
+          "status": "pending"
         }
       ],
       "wishlist": [],
       "created_at": "2025-09-17T06:54:52.570Z",
       "phone": "9048126169",
-      "address": ""
+      "address": "",
+      "addresses": [
+        {
+          "address": "nbtyntynyt",
+          "city": "ververv",
+          "state": "rverver",
+          "zipCode": "235454"
+        }
+      ]
     },
     {
       "id": "05b5",
@@ -192,7 +254,7 @@
       "name": "Apple Watch Series 11",
       "description": "Latest Apple Watch Series 11 with advanced health tracking and modern design.",
       "price": 29999,
-      "count": 19,
+      "count": 18,
       "highlight": true,
       "category": "Smartwatch",
       "images": [
@@ -206,7 +268,7 @@
       "name": "iPhone 17 Pro",
       "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
       "price": 189999,
-      "count": 8,
+      "count": 3,
       "highlight": true,
       "category": "Smartphone",
       "images": [
@@ -220,7 +282,7 @@
       "name": "Apple AirPods 4",
       "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
       "price": 59999,
-      "count": 12,
+      "count": 10,
       "highlight": true,
       "category": "Earbuds",
       "images": [
@@ -234,7 +296,7 @@
       "name": "Apple MacBook Air (M2, 2022)",
       "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
       "price": 99999,
-      "count": 8,
+      "count": -3,
       "highlight": true,
       "category": "Laptop",
       "images": [
@@ -262,7 +324,7 @@
       "name": "iPhone Air",
       "description": "iPhone Air – Ultra-light, sleek, and powerful. Enjoy a stunning Super Retina display, advanced dual-camera system, long-lasting battery, and lightning-fast performance—all in a compact, portable design.",
       "price": 89999,
-      "count": 9,
+      "count": 8,
       "highlight": false,
       "category": "Smartphone",
       "images": [

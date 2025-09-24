@@ -31,7 +31,7 @@ const Products = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Filter products
+  // Filter products --search and category/price
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name
       .toLowerCase()

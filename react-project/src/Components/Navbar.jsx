@@ -15,12 +15,7 @@ const Navbar = () => {
     setMobileMenuOpen(false);
   };
 
-  const getInitial = () => {
-    if (user?.name) {
-      return user.name.charAt(0).toUpperCase();
-    }
-    return "U";
-  };
+  const getInitial = () => (user?.name ? user.name.charAt(0).toUpperCase() : "U");
 
   return (
     <nav className="sticky top-0 z-50 backdrop-blur-md bg-white/70 border-b border-gray-100 shadow-md">
@@ -49,6 +44,12 @@ const Navbar = () => {
               className="text-gray-900 hover:text-blue-600 font-medium transition-colors"
             >
               Products
+            </button>
+            <button
+              onClick={() => navigate("/about")}
+              className="text-gray-900 hover:text-blue-600 font-medium transition-colors"
+            >
+              About
             </button>
           </div>
 
@@ -119,10 +120,12 @@ const Navbar = () => {
                     {getInitial()}
                   </div>
                   <span className="text-gray-700 font-medium hidden sm:block">
-                    Hi, {user.name?.split(' ')[0] || 'User'}
+                    Hi, {user.name?.split(" ")[0] || "User"}
                   </span>
                   <svg
-                    className={`w-4 h-4 text-gray-600 transition-transform ${userMenuOpen ? 'rotate-180' : ''}`}
+                    className={`w-4 h-4 text-gray-600 transition-transform ${
+                      userMenuOpen ? "rotate-180" : ""
+                    }`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -136,7 +139,6 @@ const Navbar = () => {
                   </svg>
                 </button>
 
-                {/* User Dropdown Menu */}
                 {userMenuOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                     <button
@@ -231,8 +233,16 @@ const Navbar = () => {
           >
             Products
           </button>
+          <button
+            onClick={() => {
+              navigate("/about");
+              setMobileMenuOpen(false);
+            }}
+            className="block w-full text-left px-3 py-2 rounded-md text-gray-900 hover:bg-gray-100"
+          >
+            About
+          </button>
 
-          {/* User specific mobile menu items */}
           {user && (
             <>
               <button
@@ -256,7 +266,6 @@ const Navbar = () => {
             </>
           )}
 
-          {/* Login / Logout inside mobile menu */}
           {user ? (
             <button
               onClick={() => {
