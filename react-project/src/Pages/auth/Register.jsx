@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Context/Authcontext"; // make sure path is correct
+import { AuthContext } from "../../Context/Authcontext";
 
 function Register() {
-  const { user } = useContext(AuthContext); // get the current logged-in user
+  const { user } = useContext(AuthContext); 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,7 +14,6 @@ function Register() {
   const [message, setMessage] = useState({ text: "", type: "" });
   const navigate = useNavigate();
 
-  // 🚫 Redirect logged-in users away
   useEffect(() => {
     if (user) {
       if (user.role === "admin") {
@@ -53,7 +52,6 @@ function Register() {
     try {
       const { name, email, password } = formData;
 
-      // Check if email already exists
       const res = await axios.get(`http://localhost:3001/users?email=${email}`);
       if (res.data.length > 0) {
         setMessage({ text: "Email already registered", type: "error" });
@@ -88,14 +86,11 @@ function Register() {
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-      {/* Header */}
       <header className="bg-black py-6 px-6">
         <div className="max-w-md mx-auto flex justify-start">
           <h1 className="text-lg font-bold text-white">Apple</h1>
         </div>
       </header>
-
-      {/* Main Content */}
       <main className="flex-grow flex items-center justify-center py-8 px-4">
         <div className="max-w-md w-full">
           <div className="text-center mb-8">
@@ -115,8 +110,7 @@ function Register() {
                   <p className="text-sm">{message.text}</p>
                 </div>
               )}
-
-              <div className="mb-6">
+          <div className="mb-6">
                 <input
                   type="text"
                   name="name"
@@ -126,7 +120,6 @@ function Register() {
                   className="w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 focus:border-blue-500 text-white placeholder-gray-400 focus:outline-none transition-colors"
                 />
               </div>
-
               <div className="mb-6">
                 <input
                   type="email"
@@ -137,7 +130,6 @@ function Register() {
                   className="w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 focus:border-blue-500 text-white placeholder-gray-400 focus:outline-none transition-colors"
                 />
               </div>
-
               <div className="mb-6">
                 <input
                   type="password"
@@ -148,7 +140,6 @@ function Register() {
                   className="w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 focus:border-blue-500 text-white placeholder-gray-400 focus:outline-none transition-colors"
                 />
               </div>
-
               <div className="mb-8">
                 <input
                   type="password"
@@ -159,7 +150,6 @@ function Register() {
                   className="w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 focus:border-blue-500 text-white placeholder-gray-400 focus:outline-none transition-colors"
                 />
               </div>
-
               <button
                 type="submit"
                 className="w-full py-4 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
@@ -167,7 +157,6 @@ function Register() {
                 Create Account
               </button>
             </form>
-
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-400">
                 Already have an account?{" "}

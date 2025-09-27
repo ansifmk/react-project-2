@@ -41,20 +41,25 @@ const Cart = () => {
         updatedQuantity <= 0
           ? user.cart.filter((item) => item.id !== productId)
           : user.cart.map((item) =>
-              item.id === productId ? { ...item, quantity: updatedQuantity } : item
+              item.id === productId
+                ? { ...item, quantity: updatedQuantity }
+                : item
             );
 
-      // Get product details to update stock
-      const productRes = await axios.get(`http://localhost:3001/products/${productId}`);
+      const productRes = await axios.get(
+        `http://localhost:3001/products/${productId}`
+      );
       const product = productRes.data;
-
       const appliedDelta = updatedQuantity - cartItem.quantity;
       const updatedCount = Math.max(product.count - appliedDelta, 0);
 
-      // Only update cart and stock, NOT orders
       await Promise.all([
-        axios.patch(`http://localhost:3001/users/${user.id}`, { cart: updatedCart }),
-        axios.patch(`http://localhost:3001/products/${productId}`, { count: updatedCount }),
+        axios.patch(`http://localhost:3001/users/${user.id}`, {
+          cart: updatedCart,
+        }),
+        axios.patch(`http://localhost:3001/products/${productId}`, {
+          count: updatedCount,
+        }),
       ]);
 
       const updatedUser = { ...user, cart: updatedCart };
@@ -75,15 +80,21 @@ const Cart = () => {
       const cartItem = user.cart.find((item) => item.id === productId);
       if (!cartItem) return;
 
-      const productRes = await axios.get(`http://localhost:3001/products/${productId}`);
+      const productRes = await axios.get(
+        `http://localhost:3001/products/${productId}`
+      );
       const product = productRes.data;
       const updatedCount = product.count + cartItem.quantity;
 
       const updatedCart = user.cart.filter((item) => item.id !== productId);
 
       await Promise.all([
-        axios.patch(`http://localhost:3001/users/${user.id}`, { cart: updatedCart }),
-        axios.patch(`http://localhost:3001/products/${productId}`, { count: updatedCount }),
+        axios.patch(`http://localhost:3001/users/${user.id}`, {
+          cart: updatedCart,
+        }),
+        axios.patch(`http://localhost:3001/products/${productId}`, {
+          count: updatedCount,
+        }),
       ]);
 
       const updatedUser = { ...user, cart: updatedCart };
@@ -97,7 +108,10 @@ const Cart = () => {
     }
   };
 
-  const totalPrice = user.cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalPrice = user.cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
@@ -156,7 +170,9 @@ const Cart = () => {
                           >
                             -
                           </button>
-                          <span className="px-3 text-gray-700 font-medium">{item.quantity}</span>
+                          <span className="px-3 text-gray-700 font-medium">
+                            {item.quantity}
+                          </span>
                           <button
                             onClick={() => updateCartItem(item.id, 1)}
                             disabled={updating[item.id] || item.quantity >= 10}

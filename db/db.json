@@ -13,169 +13,6 @@
       "created_at": "2025-09-17T06:52:12.416Z"
     },
     {
-      "id": "59c7",
-      "name": "sd",
-      "email": "sd@gmail.com",
-      "password": "654321",
-      "role": "user",
-      "isBlock": false,
-      "cart": [
-        {
-          "id": "p003",
-          "name": "Apple AirPods 4",
-          "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
-          "price": 59999,
-          "count": 11,
-          "highlight": true,
-          "category": "Earbuds",
-          "images": [
-            "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
-          ],
-          "isActive": true,
-          "created_at": "2025-09-19T10:25:00.000Z",
-          "quantity": 1
-        }
-      ],
-      "orders": [
-        {
-          "id": "order_1758705465093",
-          "items": [
-            {
-              "id": "p004",
-              "name": "Apple MacBook Air (M2, 2022)",
-              "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
-              "price": 99999,
-              "count": 8,
-              "highlight": true,
-              "category": "Laptop",
-              "images": [
-                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-card-40-macbook-air-202503?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=dzRRdVl2UHpmd3BrL2dpaGRDY2RKN3dnWXpNRUFSbE1veTFaYXZqWDhWZ2w2T29GWFRmcGlRaHRKa2ZZeG54SDRHeXB5TnVsU3R6Qjd0Y2JzbURyWE56dkQ1M2pkMXloY0FLTkxsc2xNQXArYWpGdS9XeFgvbS9ITnNYOEhYaG4"
-              ],
-              "isActive": true,
-              "created_at": "2025-09-19T10:30:00.000Z",
-              "quantity": 1
-            }
-          ],
-          "total": 99999,
-          "shippingInfo": {
-            "fullName": "ansif",
-            "address": "aasa",
-            "city": "btbtyntyn",
-            "state": "ntyntyn",
-            "zipCode": "22838"
-          },
-          "paymentMethod": "cash",
-          "created_at": "2025-09-24T09:17:45.093Z",
-          "status": "cancelled"
-        },
-        {
-          "id": "order_1758710240846",
-          "items": [
-            {
-              "id": "p002",
-              "name": "iPhone 17 Pro",
-              "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
-              "price": 189999,
-              "count": 7,
-              "highlight": true,
-              "category": "Smartphone",
-              "images": [
-                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
-              ],
-              "isActive": true,
-              "created_at": "2025-09-19T10:20:00.000Z",
-              "quantity": 1
-            }
-          ],
-          "total": 189999,
-          "shippingInfo": {
-            "fullName": "ansif",
-            "address": "nbtyntynyt",
-            "city": "aa",
-            "state": "ntyntyn",
-            "zipCode": "235454"
-          },
-          "paymentMethod": "cash",
-          "created_at": "2025-09-24T10:37:20.846Z",
-          "status": "pending"
-        },
-        {
-          "id": "order_1758715748754",
-          "items": [
-            {
-              "id": "p004",
-              "name": "Apple MacBook Air (M2, 2022)",
-              "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
-              "price": 99999,
-              "count": 7,
-              "highlight": true,
-              "category": "Laptop",
-              "images": [
-                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/mac-card-40-macbook-air-202503?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=dzRRdVl2UHpmd3BrL2dpaGRDY2RKN3dnWXpNRUFSbE1veTFaYXZqWDhWZ2w2T29GWFRmcGlRaHRKa2ZZeG54SDRHeXB5TnVsU3R6Qjd0Y2JzbURyWE56dkQ1M2pkMXloY0FLTkxsc2xNQXArYWpGdS9XeFgvbS9ITnNYOEhYaG4"
-              ],
-              "isActive": true,
-              "created_at": "2025-09-19T10:30:00.000Z",
-              "quantity": 5
-            }
-          ],
-          "total": 499995,
-          "shippingInfo": {
-            "fullName": "ansif",
-            "address": "fdsf",
-            "city": "dzfdz",
-            "state": "zvz",
-            "zipCode": "45654343"
-          },
-          "paymentMethod": "cash",
-          "created_at": "2025-09-24T12:09:08.754Z",
-          "status": "pending"
-        },
-        {
-          "id": "order_1758716074862",
-          "items": [
-            {
-              "id": "p002",
-              "name": "iPhone 17 Pro",
-              "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
-              "price": 189999,
-              "count": 5,
-              "highlight": true,
-              "category": "Smartphone",
-              "images": [
-                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
-              ],
-              "isActive": true,
-              "created_at": "2025-09-19T10:20:00.000Z",
-              "quantity": 1
-            }
-          ],
-          "total": 189999,
-          "shippingInfo": {
-            "fullName": "ansif",
-            "address": "nbtyntynyt",
-            "city": "ververv",
-            "state": "rverver",
-            "zipCode": "235454"
-          },
-          "paymentMethod": "cash",
-          "created_at": "2025-09-24T12:14:34.862Z",
-          "status": "pending"
-        }
-      ],
-      "wishlist": [],
-      "created_at": "2025-09-17T06:54:52.570Z",
-      "phone": "9048126169",
-      "address": "",
-      "addresses": [
-        {
-          "address": "nbtyntynyt",
-          "city": "ververv",
-          "state": "rverver",
-          "zipCode": "235454"
-        }
-      ]
-    },
-    {
       "id": "05b5",
       "name": "rashi",
       "email": "rashi1243@gmail.com",
@@ -224,18 +61,6 @@
       "created_at": "2025-09-17T15:35:01.998Z"
     },
     {
-      "id": "cb49",
-      "name": "Ansif",
-      "email": "mohammedansifmk@gmail.com",
-      "password": "1456",
-      "role": "user",
-      "isBlock": false,
-      "cart": [],
-      "orders": [],
-      "wishlist": [],
-      "created_at": "2025-09-17T15:41:07.936Z"
-    },
-    {
       "id": "8933",
       "name": "abin",
       "email": "abin098@gmail.com",
@@ -246,6 +71,347 @@
       "orders": [],
       "wishlist": [],
       "created_at": "2025-09-18T07:28:47.821Z"
+    },
+    {
+      "id": "c473",
+      "name": "ansifd",
+      "email": "ansif@gmail.com",
+      "password": "123456",
+      "role": "user",
+      "isBlock": false,
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "created_at": "2025-09-25T07:14:11.156Z",
+      "phone": "",
+      "addresses": []
+    },
+    {
+      "id": "d0c8",
+      "name": "edeed",
+      "email": "kmun@485882",
+      "password": "123",
+      "role": "user",
+      "isBlock": false,
+      "cart": [],
+      "orders": [],
+      "wishlist": [],
+      "created_at": "2025-09-25T09:01:37.800Z"
+    },
+    {
+      "id": "8028",
+      "name": "Ansifmk",
+      "email": "mohammedansifmka@gmail.com",
+      "password": "1234",
+      "role": "user",
+      "isBlock": false,
+      "cart": [
+        {
+          "id": "p003",
+          "name": "Apple AirPods 4",
+          "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
+          "price": 59999,
+          "count": 5,
+          "highlight": true,
+          "category": "Earbuds",
+          "images": [
+            "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:25:00.000Z",
+          "quantity": 1
+        },
+        {
+          "id": "p002",
+          "name": "iPhone 17 Pro",
+          "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+          "price": 189999,
+          "count": 15,
+          "highlight": true,
+          "category": "Smartphone",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:20:00.000Z",
+          "quantity": 1
+        }
+      ],
+      "orders": [
+        {
+          "id": "order_1758812369308",
+          "items": [
+            {
+              "id": "p003",
+              "name": "Apple AirPods 4",
+              "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
+              "price": 59999,
+              "count": 11,
+              "highlight": true,
+              "category": "Earbuds",
+              "images": [
+                "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:25:00.000Z",
+              "quantity": 1
+            },
+            {
+              "id": "p007",
+              "name": "Apple Airpods(Active Noise Cancellation)",
+              "description": "Sleek and lightweight Apple Airpods with Active Noise Cancellation for an immersive audio experience.",
+              "price": 23999,
+              "count": 8,
+              "highlight": false,
+              "category": "Earbuds",
+              "images": [
+                "https://www.myg.in/images/thumbnails/500/500/detailed/85/61oCISLE_PL._SL1500__1xmk-qf_th1a-kv-removebg-preview.png.png"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:30:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 83998,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-25T14:59:29.308Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1758823636701",
+          "items": [
+            {
+              "id": "p003",
+              "name": "Apple AirPods 4",
+              "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
+              "price": 59999,
+              "count": 9,
+              "highlight": true,
+              "category": "Earbuds",
+              "images": [
+                "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:25:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 59999,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-25T18:07:16.701Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1758824317444",
+          "items": [
+            {
+              "id": "p002",
+              "name": "iPhone 17 Pro",
+              "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+              "price": 189999,
+              "count": 2,
+              "highlight": true,
+              "category": "Smartphone",
+              "images": [
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:20:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 189999,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-25T18:18:37.444Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1758824971838",
+          "items": [
+            {
+              "id": "p003",
+              "name": "Apple AirPods 4",
+              "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
+              "price": 59999,
+              "count": 7,
+              "highlight": true,
+              "category": "Earbuds",
+              "images": [
+                "https://m.media-amazon.com/images/I/51pOjb8cWPL._SX679_.jpg"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:25:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 59999,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-25T18:29:31.838Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1758825737139",
+          "items": [
+            {
+              "id": "p002",
+              "name": "iPhone 17 Pro",
+              "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+              "price": 189999,
+              "count": 21,
+              "highlight": true,
+              "category": "Smartphone",
+              "images": [
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:20:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 189999,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-25T18:42:17.139Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1758828242629",
+          "items": [
+            {
+              "id": "p0010",
+              "name": "Apple iphone 17",
+              "description": "Sleek and lightweight Apple iphone 17 | 256 GB | White.",
+              "price": 23999,
+              "count": 9,
+              "highlight": false,
+              "category": "Smartphone",
+              "images": [
+                "https://www.myg.in/images/thumbnails/600/600/detailed/118/Apple-iphone-17-white-512gb-Front-Back-Side-View__1_.png.png"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:30:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 23999,
+          "shippingInfo": {
+            "fullName": "liya",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-25T19:24:02.629Z",
+          "status": "cancelled"
+        },
+        {
+          "id": "order_1758947434621",
+          "items": [
+            {
+              "id": "p002",
+              "name": "iPhone 17 Pro",
+              "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+              "price": 189999,
+              "count": 19,
+              "highlight": true,
+              "category": "Smartphone",
+              "images": [
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:20:00.000Z",
+              "quantity": 4
+            },
+            {
+              "id": "p001",
+              "name": "Apple Watch Series 11",
+              "description": "Latest Apple Watch Series 11 with advanced health tracking and modern design.",
+              "price": 29999,
+              "count": 15,
+              "highlight": true,
+              "category": "Smartwatch",
+              "images": [
+                "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/watch-card-40-s11-202509_GEO_IN?wid=680&hei=528&fmt=jpeg&qlt=90&.v=RGt6QnVpU0piVDZnRHZnWmNNbHB2NVZ0NEt5THRtSGFqY0t3ckRnOWhiKzJjSW42RjNkUmxsaVhqRzVyUDdYaTE1UUxLT2t0cW42N3FvQzVqaGhrVVdKOHR0K1huZGxiVGxWdmdkNTVhcE4rYWpGdS9XeFgvbS9ITnNYOEhYaG4"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:15:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 789995,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-09-27T04:30:34.621Z",
+          "status": "cancelled"
+        }
+      ],
+      "wishlist": [
+        {
+          "id": "p002",
+          "name": "iPhone 17 Pro",
+          "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
+          "price": 189999,
+          "count": 19,
+          "highlight": true,
+          "category": "Smartphone",
+          "images": [
+            "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-card-40-17pro-202509?wid=680&hei=528&fmt=p-jpg&qlt=95&.v=WVVFRzUzVk1oblJhbW9PbGNSU25jaUtlSkZ1cHdCU1J4ZWZjamdoYzhpRkMxQXc4S3pBZE5lUDJlTzVYSUYydFMwV0hhcmdVdXZzZ1NwTlFUaEgwTDc0akx0V0lSSVRoL2tPb3ZabW5DM0k"
+          ],
+          "isActive": true,
+          "created_at": "2025-09-19T10:20:00.000Z"
+        }
+      ],
+      "created_at": "2025-09-25T14:14:00.991Z",
+      "phone": "9048126169",
+      "addresses": [
+        {
+          "address": "mangattukavungal",
+          "city": "malapuram",
+          "state": "kerala",
+          "zipCode": "654565"
+        }
+      ]
     }
   ],
   "products": [
@@ -254,7 +420,7 @@
       "name": "Apple Watch Series 11",
       "description": "Latest Apple Watch Series 11 with advanced health tracking and modern design.",
       "price": 29999,
-      "count": 18,
+      "count": 15,
       "highlight": true,
       "category": "Smartwatch",
       "images": [
@@ -268,7 +434,7 @@
       "name": "iPhone 17 Pro",
       "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
       "price": 189999,
-      "count": 3,
+      "count": 15,
       "highlight": true,
       "category": "Smartphone",
       "images": [
@@ -282,7 +448,7 @@
       "name": "Apple AirPods 4",
       "description": "Wireless Earbuds, Bluetooth Headphones, with Active Noise Cancellation, Adaptive Audio, Transparency Mode, Personalised Spatial Audio, USB-C Charging Case, Wireless Charging, H2 Chip",
       "price": 59999,
-      "count": 10,
+      "count": 5,
       "highlight": true,
       "category": "Earbuds",
       "images": [
@@ -295,8 +461,8 @@
       "id": "p004",
       "name": "Apple MacBook Air (M2, 2022)",
       "description": "Sleek and lightweight Apple MacBook Air with M2 chip for exceptional performance and battery life.",
-      "price": 99999,
-      "count": -3,
+      "price": 131999,
+      "count": 3,
       "highlight": true,
       "category": "Laptop",
       "images": [
@@ -323,8 +489,8 @@
       "id": "p006",
       "name": "iPhone Air",
       "description": "iPhone Air – Ultra-light, sleek, and powerful. Enjoy a stunning Super Retina display, advanced dual-camera system, long-lasting battery, and lightning-fast performance—all in a compact, portable design.",
-      "price": 89999,
-      "count": 8,
+      "price": 87999,
+      "count": 9,
       "highlight": false,
       "category": "Smartphone",
       "images": [
@@ -337,8 +503,8 @@
       "id": "p007",
       "name": "Apple Airpods(Active Noise Cancellation)",
       "description": "Sleek and lightweight Apple Airpods with Active Noise Cancellation for an immersive audio experience.",
-      "price": 99999,
-      "count": 9,
+      "price": 23999,
+      "count": 6,
       "highlight": false,
       "category": "Earbuds",
       "images": [
@@ -365,7 +531,7 @@
       "id": "p009",
       "name": "Apple Watch Series 10",
       "description": "Sleek and lightweight Apple Watch Series 10 | GPS | 46mm | Jet black Strap | MWWQ3HN/A.",
-      "price": 99999,
+      "price": 34999,
       "count": 10,
       "highlight": false,
       "category": "Smartwatch",
@@ -379,8 +545,8 @@
       "id": "p0010",
       "name": "Apple iphone 17",
       "description": "Sleek and lightweight Apple iphone 17 | 256 GB | White.",
-      "price": 99999,
-      "count": 9,
+      "price": 23999,
+      "count": 8,
       "highlight": false,
       "category": "Smartphone",
       "images": [
@@ -421,7 +587,7 @@
       "id": "p0013",
       "name": "Apple Watch SE",
       "description": "Sleek and lightweight Apple Watch SE GPS | 40mm Retina LTPO OLED Display | Starlight Aluminum Case .",
-      "price": 99999,
+      "price": 23999,
       "count": 10,
       "highlight": false,
       "category": "Smartwatch",
@@ -463,8 +629,8 @@
       "id": "p0016",
       "name": "Apple MacBook Air M3",
       "description": "Apple MacBook Air M3 | 16 GB | 256 GB SSD | Space Grey | MC9D4HN/A.",
-      "price": 99999,
-      "count": 10,
+      "price": 119999,
+      "count": 8,
       "highlight": false,
       "category": "Laptop",
       "images": [

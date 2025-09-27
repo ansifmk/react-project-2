@@ -23,7 +23,6 @@ const ProductDetails = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
-  // Add to Cart
   const addToCart = async () => {
     if (!user) return toast.info("Please login to add items to cart");
     if (!product) return;
@@ -59,7 +58,6 @@ const ProductDetails = () => {
     }
   };
 
-  // Toggle Wishlist
   const toggleWishlist = async () => {
     if (!user) return toast.info("Please login to use wishlist");
     if (!product) return;
@@ -103,9 +101,7 @@ const ProductDetails = () => {
       <button onClick={() => navigate(-1)} className="mb-4 text-blue-600 hover:underline">
         ← Back
       </button>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white p-6 rounded-lg shadow">
-        {/* Product Image */}
         <div className="flex items-center justify-center">
           <img
             src={product.images?.[0]}
@@ -113,8 +109,6 @@ const ProductDetails = () => {
             className="rounded-lg max-h-96 object-contain"
           />
         </div>
-
-        {/* Product Details */}
         <div>
           <h1 className="text-3xl font-semibold mb-4">{product.name}</h1>
           <p className="text-gray-600 mb-4">{product.description}</p>
@@ -124,9 +118,6 @@ const ProductDetails = () => {
           <p className="text-sm text-gray-500 mb-4">
             {product.count > 0 ? `${product.count} in stock` : "Out of stock"}
           </p>
-
-          {/* Removed star rating */}
-
           <div className="flex space-x-4">
             {isInCart ? (
               <button

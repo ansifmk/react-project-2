@@ -1,14 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-// Create context
 export const AuthContext = createContext();
 
-// Auth provider component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Load user from localStorage on refresh
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     if (savedUser) {
@@ -16,7 +13,6 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // 🔐 Login function
   const login = async (email, password) => {
     try {
       if (!email || !password) {
@@ -24,32 +20,20 @@ export const AuthProvider = ({ children }) => {
       }
 
       const cleanEmail = email.trim().toLowerCase();
-
-      // Fetch user from JSON Server
       const res = await axios.get(`http://localhost:3001/users?email=${cleanEmail}`);
-
       if (res.data.length === 0) {
         throw new Error("User not found");
       }
-
-      const foundUser = res.data[0];
-
-      // Email check (case-insensitive)
+     const foundUser = res.data[0];
       if (foundUser.email.toLowerCase() !== cleanEmail) {
         throw new Error("Invalid email");
       }
-
-      // Password check
       if (foundUser.password !== password) {
         throw new Error("Invalid password");
       }
-
-      // Block check
       if (foundUser.isBlock) {
         throw new Error("Your account has been blocked. Contact admin.");
       }
-
-      // ✅ Save user to state and localStorage
       setUser(foundUser);
       localStorage.setItem("user", JSON.stringify(foundUser));
 
@@ -58,14 +42,10 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: err.message || "Login failed" };
     }
   };
-
-  // 🚪 Logout function
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
   };
-
-  // Optional: refresh user from server (e.g., after updating wishlist/cart)
   const refreshUser = async () => {
     if (!user) return;
     try {

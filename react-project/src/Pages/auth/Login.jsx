@@ -1,4 +1,3 @@
-// src/pages/Login.jsx
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Context/Authcontext";
@@ -11,7 +10,6 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  // 🚫 If already logged in, redirect away
   useEffect(() => {
     if (user) {
       if (user.role === "admin") {
@@ -43,14 +41,11 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-      {/* Header */}
       <header className="bg-black py-6 px-6">
         <div className="max-w-md mx-auto flex justify-start">
           <h1 className="text-lg font-bold text-white">Apple</h1>
         </div>
       </header>
-
-      {/* Main Content */}
       <main className="flex-grow flex items-center justify-center py-8 px-4">
         <div className="max-w-md w-full">
           <div className="text-center mb-8">

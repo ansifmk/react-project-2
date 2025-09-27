@@ -8,140 +8,82 @@ import "react-toastify/dist/ReactToastify.css";
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [addingToCart, setAddingToCart] = useState({});
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
 
   const navigate = useNavigate();
   const { user, setUser } = useContext(AuthContext);
 
-  // Fetch products
   useEffect(() => {
     axios
       .get("http://localhost:3001/products")
-      .then((res) => {
-        setProducts(res.data);
-        setError(null);
-      })
-      .catch((err) => {
-        console.error("Error fetching products:", err);
-        setError("Failed to load products. Please try again later.");
-      })
+      .then((res) => setProducts(res.data))
+      .catch(() => toast.error("Failed to load products"))
       .finally(() => setLoading(false));
   }, []);
 
-  // Filter products --search and category/price
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  const filtered = products.filter((p) => {
+    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase()); 
+    const matchCategory = category ? p.category === category : true;
+    let matchPrice = true;
 
-    let matchesFilter = true;
-
-    if (filter.startsWith("category:")) {
-      const category = filter.split(":")[1];
-      matchesFilter = product.category === category;
-    } else if (filter.startsWith("price:")) {
-      const [min, max] = filter.split(":")[1].split("-").map(Number);
-      if (max) {
-        matchesFilter = product.price >= min && product.price <= max;
-      } else {
-        matchesFilter = product.price >= min;
-      }
+    if (price) {
+      const [min, max] = price.split("-").map(Number);
+      matchPrice = max ? p.price >= min && p.price <= max : p.price >= min;
     }
 
-    return matchesSearch && matchesFilter;
+    return matchSearch && matchCategory && matchPrice;
   });
 
-  // Handlers
-  const handleSearchChange = (e) => setSearchTerm(e.target.value);
-  const handleFilterChange = (e) => setFilter(e.target.value);
-
-  const toggleWishlist = async (productId, e) => {
+  const toggleWishlist = async (product, e) => {
     e.stopPropagation();
-    if (!user) return toast.info("Please login to add items to wishlist");
+    if (!user) return toast.info("Please login first");
 
-    try {
-      const isInWishlist = user.wishlist?.some((item) => item.id === productId);
-      let updatedWishlist;
-      let productName;
+    const isInWishlist = user.wishlist?.some((i) => i.id === product.id);
+    const updatedWishlist = isInWishlist
+      ? user.wishlist.filter((i) => i.id !== product.id)
+      : [...(user.wishlist || []), product];
 
-      if (isInWishlist) {
-        const removedProduct = user.wishlist.find((item) => item.id === productId);
-        productName = removedProduct?.name || "Product";
-        updatedWishlist = user.wishlist.filter((item) => item.id !== productId);
-      } else {
-        const productToAdd = products.find((product) => product.id === productId);
-        productName = productToAdd?.name || "Product";
-        updatedWishlist = [...(user.wishlist || []), productToAdd];
-      }
+    await axios.patch(`http://localhost:3001/users/${user.id}`, {
+      wishlist: updatedWishlist,
+    });
 
-      // Only update wishlist in backend
-      await axios.patch(`http://localhost:3001/users/${user.id}`, {
-        wishlist: updatedWishlist,
-      });
+    const updatedUser = { ...user, wishlist: updatedWishlist };
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
 
-      const updatedUser = { ...user, wishlist: updatedWishlist };
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-
-      toast[isInWishlist ? "warning" : "success"](
-        isInWishlist
-          ? `${productName} removed from wishlist`
-          : `${productName} added to wishlist`
-      );
-    } catch (err) {
-      console.error("Error updating wishlist:", err);
-      toast.error("Failed to update wishlist. Please try again.");
-    }
+    toast[isInWishlist ? "warning" : "success"](
+      `${product.name} ${isInWishlist ? "removed" : "added"} from wishlist`
+    );
   };
 
-  const addToCart = async (product, e) => {
-    e.stopPropagation();
-    if (!user) return toast.info("Please login to add items to cart");
-    if (product.count === 0) return toast.warning("This product is out of stock");
+const addToCart = async (product, e) => {
+  e.stopPropagation();
+  if (!user) return toast.info("Please login first");
+  if (product.count === 0) return toast.warning("Out of stock");
 
-    setAddingToCart((prev) => ({ ...prev, [product.id]: true }));
+  const cartItemIndex = user.cart?.findIndex((i) => i.id === product.id);
+  let updatedCart = [];
 
-    try {
-      // Update cart only
-      const existingCartItem = user.cart?.find((item) => item.id === product.id);
-      const updatedCart = existingCartItem
-        ? user.cart.map((item) =>
-            item.id === product.id
-              ? { ...item, quantity: (item.quantity || 1) + 1 }
-              : item
-          )
-        : [...(user.cart || []), { ...product, quantity: 1 }];
+  if (cartItemIndex >= 0) {
+    updatedCart = [...user.cart];
+    updatedCart[cartItemIndex].quantity += 1;
+  } else {
+    updatedCart = [...(user.cart || []), { ...product, quantity: 1 }];
+  }
 
-      // Update products count locally
-      const updatedProducts = products.map((p) =>
-        p.id === product.id ? { ...p, count: Math.max(0, p.count - 1) } : p
-      );
+  await axios.patch(`http://localhost:3001/users/${user.id}`, {
+    cart: updatedCart,
+  });
 
-      // Only send cart to backend, leave orders untouched
-      await axios.patch(`http://localhost:3001/users/${user.id}`, {
-        cart: updatedCart,
-      });
+  const updatedUser = { ...user, cart: updatedCart };
+  setUser(updatedUser);
+  localStorage.setItem("user", JSON.stringify(updatedUser));
 
-      await axios.patch(`http://localhost:3001/products/${product.id}`, {
-        count: Math.max(0, product.count - 1),
-      });
+  toast.success(`${product.name} added to cart`);
+};
 
-      const updatedUser = { ...user, cart: updatedCart };
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
-      setProducts(updatedProducts);
-
-      toast.success(`${product.name} added to cart!`);
-    } catch (err) {
-      console.error("Error adding to cart:", err);
-      toast.error("Failed to add product to cart. Please try again.");
-    } finally {
-      setAddingToCart((prev) => ({ ...prev, [product.id]: false }));
-    }
-  };
 
   if (loading) {
     return (
@@ -154,27 +96,10 @@ const Products = () => {
     );
   }
 
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center">
-          <p className="text-red-600 mb-4">{error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-gray-50">
       <ToastContainer position="top-right" autoClose={3000} />
 
-      {/* Hero */}
       <section
         className="bg-white py-16 shadow-sm relative"
         style={{
@@ -194,7 +119,7 @@ const Products = () => {
               Explore our complete range of Apple products
             </p>
             <p className="text-sm text-gray-500 mt-2">
-              {filteredProducts.length} products available
+              {filtered.length} products available
             </p>
 
             <div className="w-full max-w-2xl mx-auto mt-8">
@@ -202,59 +127,62 @@ const Products = () => {
                 type="text"
                 placeholder="Search products..."
                 className="block w-full px-4 py-3 bg-white rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                value={searchTerm}
-                onChange={handleSearchChange}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
               />
             </div>
 
-            <div className="flex justify-center mt-6">
+            <div className="flex justify-center mt-6 gap-4 flex-wrap">
               <select
-                value={filter}
-                onChange={handleFilterChange}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
                 className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               >
-                <option value="">All Products</option>
-                <optgroup label="Category">
-                  <option value="category:Smartphone">iPhone</option>
-                  <option value="category:Laptop">MacBook</option>
-                  <option value="category:Headphones">AirPods Max</option>
-                  <option value="category:Smartwatch">Apple Watch</option>
-                  <option value="category:Earbuds">AirPods</option>
-                </optgroup>
-                <optgroup label="Price Range">
-                  <option value="price:0-50000">₹0 - ₹50,000</option>
-                  <option value="price:50001-100000">₹50,001 - ₹1,00,000</option>
-                  <option value="price:100001-150000">₹1,00,001 - ₹1,50,000</option>
-                  <option value="price:150001-200000">₹1,50,001+</option>
-                </optgroup>
-                <option value="">Clear All Filters</option>
+                <option value="">All Categories</option>
+                <option value="Smartphone">iPhone</option>
+                <option value="Laptop">MacBook</option>
+                <option value="Smartwatch">Apple Watch</option>
+                <option value="Earbuds">AirPods</option>
+                <option value="Headphones">AirPods Max</option>
+              </select>
+
+              <select
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">All Prices</option>
+                <option value="0-50000">₹0 - ₹50,000</option>
+                <option value="50001-100000">₹50,001 - ₹1,00,000</option>
+                <option value="100001-150000">₹1,00,001 - ₹1,50,000</option>
+                <option value="150001">₹1,50,001+</option>
               </select>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Product List */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
-          {filteredProducts.length === 0 ? (
+          {filtered.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-600">No products found.</p>
-              {filter || searchTerm ? (
+              {(category || price || search) && (
                 <button
                   onClick={() => {
-                    setFilter("");
-                    setSearchTerm("");
+                    setCategory("");
+                    setPrice("");
+                    setSearch("");
                   }}
                   className="mt-4 bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800"
                 >
                   Clear Filters
                 </button>
-              ) : null}
+              )}
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredProducts.map((product) => {
+              {filtered.map((product) => {
                 const isInWishlist = user?.wishlist?.some(
                   (item) => item.id === product.id
                 );
@@ -269,7 +197,7 @@ const Products = () => {
                     onClick={() => navigate(`/product/${product.id}`)}
                   >
                     <button
-                      onClick={(e) => toggleWishlist(product.id, e)}
+                      onClick={(e) => toggleWishlist(product, e)}
                       className="absolute top-3 right-3 p-2 rounded-full bg-white shadow z-10"
                     >
                       <svg
@@ -330,24 +258,16 @@ const Products = () => {
                               addToCart(product, e);
                             }
                           }}
-                          disabled={
-                            product.count === 0 ||
-                            !product.isActive ||
-                            addingToCart[product.id]
-                          }
+                          disabled={product.count === 0}
                           className={`w-full py-2.5 px-4 rounded-full text-sm font-medium transition-colors ${
-                            product.count === 0 || !product.isActive
+                            product.count === 0
                               ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                               : isInCart
                               ? "bg-green-600 text-white hover:bg-green-700"
                               : "bg-black text-white hover:bg-gray-800"
                           }`}
                         >
-                          {addingToCart[product.id]
-                            ? "Adding..."
-                            : isInCart
-                            ? "Go to Cart"
-                            : "Add to Cart"}
+                          {isInCart ? "Go to Cart" : "Add to Cart"}
                         </button>
                       </div>
                     </div>

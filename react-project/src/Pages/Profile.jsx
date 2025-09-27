@@ -38,29 +38,22 @@ const Profile = () => {
     }));
   };
 
-  // Address functions
   const handleNewAddressChange = (e) => {
     const { name, value } = e.target;
-    if (name === "zipCode" && !/^\d*$/.test(value)) return; // numeric only
+    if (name === "zipCode" && !/^\d*$/.test(value)) return;
     setNewAddress((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAddAddress = () => {
     const { address, city, state, zipCode } = newAddress;
-
-    // Validation: required fields
     if (!address.trim() || !city.trim() || !state.trim() || !zipCode.trim()) {
       alert("Please fill all address fields");
       return;
     }
-
-    // ZIP code numeric check
     if (!/^\d+$/.test(zipCode)) {
       alert("ZIP code must contain only numbers");
       return;
     }
-
-    // Add new address as object
     setAddresses([...addresses, { ...newAddress }]);
     setNewAddress({ address: "", city: "", state: "", zipCode: "" });
   };
@@ -137,7 +130,6 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
             Profile Information
@@ -148,16 +140,13 @@ const Profile = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Profile Information */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Personal Information Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="p-8">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-6 pb-4 border-b border-gray-200">
                   Personal Information
                 </h2>
 
-                {/* Full Name Section */}
                 <div className="mb-8">
                   <div className="flex items-center justify-between mb-3">
                     <label className="block text-sm font-medium text-gray-700 uppercase tracking-wide">
@@ -190,7 +179,6 @@ const Profile = () => {
                   )}
                 </div>
 
-                {/* Phone Section */}
                 <div className="mb-8">
                   <label className="block text-sm font-medium text-gray-700 uppercase tracking-wide mb-3">
                     Phone
@@ -213,7 +201,6 @@ const Profile = () => {
                   )}
                 </div>
 
-                {/* Email Section */}
                 <div className="mb-8">
                   <label className="block text-sm font-medium text-gray-700 uppercase tracking-wide mb-3">
                     Email
@@ -230,7 +217,6 @@ const Profile = () => {
                   </div>
                 </div>
 
-                {/* Address Section */}
                 <div className="mb-8">
                   <label className="block text-sm font-medium text-gray-700 uppercase tracking-wide mb-3">
                     Addresses
@@ -336,7 +322,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Security Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="p-8">
                 <h2 className="text-2xl font-semibold text-gray-900 mb-6 pb-4 border-b border-gray-200">
@@ -361,9 +346,7 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Right Column - Sidebar */}
           <div className="space-y-6">
-            {/* Action Buttons Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <h3 className="font-semibold text-gray-900 mb-4 text-lg">
                 Profile Actions
@@ -395,7 +378,6 @@ const Profile = () => {
               )}
             </div>
 
-            {/* Account Overview Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <h3 className="font-semibold text-gray-900 mb-4 text-lg">
                 Account Overview
@@ -430,7 +412,6 @@ const Profile = () => {
               </div>
             </div>
 
-            {/* Quick Links Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
               <h3 className="font-semibold text-gray-900 mb-4 text-lg">
                 Quick Links

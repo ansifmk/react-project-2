@@ -9,7 +9,6 @@ const Wishlist = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Fetch user's wishlist
   useEffect(() => {
     const fetchWishlist = async () => {
       try {
@@ -24,7 +23,6 @@ const Wishlist = () => {
     fetchWishlist();
   }, [user]);
 
-  // Remove product from wishlist
   const removeFromWishlist = async (productId) => {
     try {
       const updatedWishlist = wishlistItems.filter((item) => item.id !== productId);
@@ -43,21 +41,18 @@ const Wishlist = () => {
     }
   };
 
-  // ✅ Add to Cart
   const addToCart = async (product) => {
     try {
       let updatedCart = user.cart || [];
       const existingItem = updatedCart.find((item) => item.id === product.id);
 
       if (existingItem) {
-        // Increase quantity if already in cart
         updatedCart = updatedCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {
-        // Add new product with quantity = 1
         updatedCart = [...updatedCart, { ...product, quantity: 1 }];
       }
 
@@ -74,7 +69,6 @@ const Wishlist = () => {
     }
   };
 
-  // ✅ Check if product is already in cart
   const isInCart = (productId) => {
     return user?.cart?.some((item) => item.id === productId);
   };

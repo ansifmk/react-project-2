@@ -19,15 +19,9 @@ const HighlightProducts = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const data = await response.json();
-
-      // Handle both direct array and nested products array
       const productsArray = data.products || data;
-
-      // ✅ Filter only highlight products
       const highlightProducts = productsArray.filter((p) => p.highlight === true);
-
       setProducts(highlightProducts);
       setError(null);
     } catch (err) {
@@ -67,7 +61,6 @@ const HighlightProducts = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <section className="bg-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
@@ -83,8 +76,6 @@ const HighlightProducts = () => {
           </div>
         </div>
       </section>
-
-      {/* Products Grid */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {products.length === 0 ? (

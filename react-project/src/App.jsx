@@ -18,7 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./Context/Authcontext";
-import ProtectedRoute from "./Context/ProtectedRoute"; // ✅ new import
+import ProtectedRoute from "./Context/ProtectedRoute"; 
 import About from "./Pages/About";
 
 function AppContent() {
@@ -30,14 +30,12 @@ function AppContent() {
       {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
 
       <Routes>
-        {/* Public routes */}
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
 
-        {/* User Protected routes */}
         <Route
           path="/wishlist"
           element={
@@ -94,19 +92,7 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
-
-        {/* Example Admin-only route (you can add Admin Dashboard later) */}
-        {/* 
-        <Route
-          path="/admin"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          }
-        />
-        */}
-        <Route path="/about" element={<About />} />
+      <Route path="/about" element={<About />} />
       </Routes>
 
       <ToastContainer

@@ -12,11 +12,10 @@ const Home = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-black-50">
-      {/* Hero Video Section */}
       <section className="relative flex justify-center py-10">
         <div className="relative w-full max-w-7xl h-98 md:h-[500px] lg:h-[600px] overflow-hidden rounded-2xl border border-gray-200 shadow-2xl">
           <video
-            key={currentVideo} // re-render when video changes
+            key={currentVideo} 
             className="absolute top-0 left-0 w-full h-full object-cover"
             autoPlay
             muted
@@ -30,8 +29,6 @@ const Home = () => {
           </video>
         </div>
       </section>
-
-      {/* Hero Text Section */}
       <section className="bg-gray py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-5xl font-light text-gray-900 mb-4">
@@ -42,11 +39,7 @@ const Home = () => {
           </p>
         </div>
       </section>
-
-      {/* Highlight Products */}
       <HighlightProducts />
-
-      {/* Footer */}
       <footer className="bg-white border-t mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500">
           <p>© 2025 Apple Store., Ltd. All rights reserved.</p>

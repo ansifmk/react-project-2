@@ -31,8 +31,6 @@ const ChangePassword = () => {
 
     setLoading(true);
     try {
-      // Add your password change logic here
-      // This is a basic example - you'll need to implement proper authentication
       const updatedUser = { ...user, password: passwords.newPassword };
       
       await axios.put(`http://localhost:3001/users/${user.id}`, updatedUser);
