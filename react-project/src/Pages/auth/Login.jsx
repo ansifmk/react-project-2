@@ -9,6 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -22,11 +23,12 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
 
     const result = await login(email, password);
 
     if (result.success) {
-      setError("");
       const loggedInUser = result.user;
 
       if (loggedInUser.role === "admin") {
@@ -37,6 +39,7 @@ const Login = () => {
     } else {
       setError(result.message);
     }
+    setLoading(false);
   };
 
   return (
@@ -72,6 +75,7 @@ const Login = () => {
                   required
                   className="w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 focus:border-blue-500 text-white placeholder-blue-400 focus:outline-none transition-colors"
                   placeholder="email"
+                  disabled={loading}
                 />
               </div>
 
@@ -83,22 +87,23 @@ const Login = () => {
                   required
                   className="w-full px-0 py-3 bg-transparent border-0 border-b-2 border-gray-600 focus:border-blue-500 text-white placeholder-gray-400 focus:outline-none transition-colors"
                   placeholder="Password"
+                  disabled={loading}
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-4 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                disabled={loading}
+                className="w-full py-4 px-4 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
               >
-                Next
+                {loading ? "Signing in..." : "Next"}
               </button>
             </form>
 
-            <div className="mt-6 text-center space-x-4">
+            <div className="mt-6 text-center">
               <a
                 onClick={() => navigate("/register")}
-                href="#"
-                className="text-sm text-gray-400 hover:text-white underline"
+                className="text-sm text-gray-400 hover:text-white underline cursor-pointer"
               >
                 Create account
               </a>

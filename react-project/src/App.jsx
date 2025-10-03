@@ -18,12 +18,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import { AuthProvider } from "./Context/Authcontext";
-import ProtectedRoute from "./Context/ProtectedRoute"; 
+import ProtectedRoute from "./Context/ProtectedRoute";
 import About from "./Pages/About";
+import AdminLayout from "./Pages/admin/AdminLayout";
 
 function AppContent() {
   const location = useLocation();
-  const hideNavbarRoutes = ["/login", "/register"];
+  const hideNavbarRoutes = ["/login", "/register", "/dashboard","/dashboard/users","/dashboard/products","/dashboard/orders"];
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -35,7 +36,6 @@ function AppContent() {
         <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
         <Route path="/product/:id" element={<ProductDetails />} />
-
         <Route
           path="/wishlist"
           element={
@@ -92,7 +92,25 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
-      <Route path="/about" element={<About />} />
+        <Route path="/about" element={<About />} />
+
+        {/* ✅ Admin layout with sidebar + dashboard */}
+        {/* <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        /> */}
+        <Route
+          path="/dashboard/*"
+          element={
+            <ProtectedRoute allowedRoles={["admin"]}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       <ToastContainer

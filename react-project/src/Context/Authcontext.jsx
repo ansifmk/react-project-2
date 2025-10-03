@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
       if (res.data.length === 0) {
         throw new Error("User not found");
       }
-     const foundUser = res.data[0];
+      const foundUser = res.data[0];
       if (foundUser.email.toLowerCase() !== cleanEmail) {
         throw new Error("Invalid email");
       }
@@ -42,10 +42,12 @@ export const AuthProvider = ({ children }) => {
       return { success: false, message: err.message || "Login failed" };
     }
   };
+
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
   };
+
   const refreshUser = async () => {
     if (!user) return;
     try {
