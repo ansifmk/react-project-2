@@ -23,7 +23,6 @@ const ProductsManagement = () => {
 
   const { products, searchTerm, categoryFilter, showAddProduct, editingProduct, loading, newProduct } = state;
 
-  // Fetch products
   const fetchProducts = async () => {
     try {
       setState(prev => ({ ...prev, loading: true }));
@@ -42,13 +41,11 @@ const ProductsManagement = () => {
     fetchProducts();
   }, []);
 
-  // Calculations
   const totalProducts = products.length;
   const totalValue = products.reduce((sum, p) => sum + (p.price * p.count), 0);
   const lowStockCount = products.filter(p => p.count < 5).length;
   const categories = ["all", ...new Set(products.map(p => p.category))];
 
-  // Filter products
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.id.toLowerCase().includes(searchTerm.toLowerCase());
@@ -56,8 +53,7 @@ const ProductsManagement = () => {
     return matchesSearch && matchesCategory;
   });
 
-  // API Actions
-  const apiAction = async (url, options, successMessage, errorMessage) => {
+  const apiAction = async (url, options, errorMessage) => {
     try {
       const response = await fetch(url, options);
       if (!response.ok) throw new Error(errorMessage);
@@ -71,8 +67,6 @@ const ProductsManagement = () => {
 
 const addProduct = async (e) => {
   e.preventDefault();
-
-  // Prepare product data
 const { name, description, price, brand, count, category = "Smartphone", tags = "", images = [""] } = newProduct;
 
 const productData = {
@@ -89,8 +83,6 @@ const productData = {
   created_at: new Date().toISOString(),
 };
 
-
-  // Send API request
   const success = await apiAction(
     'http://localhost:3001/products',
     {
@@ -102,7 +94,7 @@ const productData = {
     'Failed to add product'
   );
 
-  // Reset form if successful
+
   if (success) {
     setState({
       ...state,
@@ -155,8 +147,6 @@ const productData = {
       'Failed to delete product'
     );
   };
-
-  // UI Actions
   const startEditing = (product) => {
     setState(prev => ({
       ...prev,
@@ -238,23 +228,17 @@ const productData = {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
             Product Management
           </h1>
           <p className="text-slate-600 text-sm">Manage all products and inventory</p>
         </div>
-
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           <StatCard icon={<Package className="w-6 h-6" />} label="Total Products" value={totalProducts} color="blue" />
           <StatCard icon={<DollarSign className="w-6 h-6" />} label="Inventory Value" value={`₹${totalValue.toLocaleString()}`} color="green" />
           <StatCard icon={<AlertTriangle className="w-6 h-6" />} label="Low Stock" value={lowStockCount} color="red" />
         </div>
-
-        {/* Search and Filters */}
         <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 mb-6 flex flex-col md:flex-row gap-4 items-center">
           <div className="flex-1 relative">
             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
@@ -285,16 +269,12 @@ const productData = {
             Add Product
           </button>
         </div>
-
-        {/* Products Table */}
         <ProductsTable 
           products={filteredProducts} 
           onEdit={startEditing}
           onDelete={deleteProduct}
           totalProducts={products.length}
         />
-
-        {/* Edit Product Modal */}
         {editingProduct && (
           <EditProductModal
             product={editingProduct}
@@ -306,8 +286,6 @@ const productData = {
             onRemoveImage={removeImageField}
           />
         )}
-
-        {/* Add Product Modal */}
         {showAddProduct && (
           <AddProductModal
             product={newProduct}
@@ -320,8 +298,6 @@ const productData = {
     </div>
   );
 };
-
-// Products Table Component
 const ProductsTable = ({ products, onEdit, onDelete, totalProducts }) => (
   <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
     <div className="overflow-x-auto">
@@ -389,8 +365,6 @@ const ProductsTable = ({ products, onEdit, onDelete, totalProducts }) => (
     </div>
   </div>
 );
-
-// Edit Product Modal Component
 const EditProductModal = ({ product, onClose, onSave, onFieldChange, onImageChange, onAddImage, onRemoveImage }) => (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
     <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -427,9 +401,6 @@ const EditProductModal = ({ product, onClose, onSave, onFieldChange, onImageChan
     </div>
   </div>
 );
-
-// Add Product Modal Component
-// Add Product Modal Component
 const AddProductModal = ({ product, onClose, onSave, onFieldChange }) => (
   <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
     <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md">
@@ -465,7 +436,6 @@ const AddProductModal = ({ product, onClose, onSave, onFieldChange }) => (
     </div>
   </div>
 );
-// Reusable Components
 const StatCard = ({ icon, label, value, color }) => {
   const colorClasses = {
     blue: "bg-blue-100 text-blue-600",

@@ -11,13 +11,10 @@ const AdminLayout = () => {
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar - fixed */}
       <div className="fixed top-0 left-0 h-screen z-50">
         <Sidebar expanded={expanded} setExpanded={setExpanded} />
       </div>
-
-      {/* Main Content */}
-      <div
+    <div
         className={`flex-1 bg-gray-50 overflow-y-auto transition-all duration-300 ${
           expanded ? "ml-56" : "ml-16"
         }`}
@@ -26,7 +23,7 @@ const AdminLayout = () => {
           <Route path="/" element={<AdminDashboard />} />
           <Route path="/users" element={<AdminUsers />} />
           <Route path="/products" element={<ProductsManagement />} />
-          <Route path="/orders" element={<OrderManagement />} /> {/* Add this route */}
+          <Route path="/orders" element={<OrderManagement />} /> 
         </Routes>
       </div>
     </div>

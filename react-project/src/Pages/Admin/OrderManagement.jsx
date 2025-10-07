@@ -9,7 +9,6 @@ const OrderManagement = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [loading, setLoading] = useState(true);
 
-  // Fetch users and orders from API
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -18,7 +17,6 @@ const OrderManagement = () => {
       const usersData = await response.json();
       setUsers(usersData);
 
-      // Extract all orders from users
       const allOrders = usersData.flatMap(user => 
         (user.orders || []).map(order => ({
           ...order,
@@ -41,7 +39,6 @@ const OrderManagement = () => {
     fetchData();
   }, []);
 
-  // Filter orders based on search and status
   useEffect(() => {
     let filtered = orders;
 
@@ -60,26 +57,21 @@ const OrderManagement = () => {
     setFilteredOrders(filtered);
   }, [searchTerm, statusFilter, orders]);
 
-  // Calculate statistics
   const totalOrders = orders.length;
   const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
   const shippedOrders = orders.filter(order => order.status === 'shipped').length;
   const deliveredOrders = orders.filter(order => order.status === 'delivered').length;
 
-  // Order distribution by status
   const orderDistribution = orders.reduce((acc, order) => {
     const status = order.status || 'pending';
     acc[status] = (acc[status] || 0) + 1;
     return acc;
   }, {});
 
-  // Get unique statuses
   const statuses = ["all", ...new Set(orders.map(order => order.status))];
 
-  // Update order status
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      // Find the user who owns this order
       const userWithOrder = users.find(user => 
         user.orders && user.orders.some(order => order.id === orderId)
       );
@@ -88,7 +80,6 @@ const OrderManagement = () => {
         throw new Error('Order not found');
       }
 
-      // Update the order status in the user's orders
       const updatedUsers = users.map(user => {
         if (user.id === userWithOrder.id) {
           return {
@@ -100,24 +91,19 @@ const OrderManagement = () => {
         }
         return user;
       });
-
-      // Update the user in the database
-      const response = await fetch(`http://localhost:3001/users/${userWithOrder.id}`, {
+     const response = await fetch(`http://localhost:3001/users/${userWithOrder.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedUsers.find(user => user.id === userWithOrder.id)),
       });
 
       if (!response.ok) throw new Error('Failed to update order status');
-
-      // Refresh data
       await fetchData();
     } catch (error) {
       alert('Error updating order status');
     }
   };
 
-  // Get status icon and color
   const getStatusInfo = (status) => {
     switch (status) {
       case 'delivered':
@@ -133,7 +119,6 @@ const OrderManagement = () => {
     }
   };
 
-  // Format date
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       month: 'short',
@@ -156,13 +141,11 @@ const OrderManagement = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">Order Management</h1>
           <p className="text-slate-600 text-sm">View and manage all customer orders</p>
         </div>
 
-        {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard 
             icon={<Package className="w-6 h-6" />} 
@@ -194,7 +177,6 @@ const OrderManagement = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Order Distribution */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
               <h2 className="text-lg font-semibold text-slate-800 mb-4">Order Distribution</h2>
@@ -217,13 +199,11 @@ const OrderManagement = () => {
             </div>
           </div>
 
-          {/* Right Column - Orders Table */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
               <div className="p-6 border-b border-slate-200">
                 <h2 className="text-lg font-semibold text-slate-800 mb-4">Recent Orders</h2>
                 
-                {/* Search and Filter */}
                 <div className="flex flex-col sm:flex-row gap-4">
                   <div className="flex-1 relative">
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
@@ -250,7 +230,6 @@ const OrderManagement = () => {
                 </div>
               </div>
 
-              {/* Orders Table */}
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-slate-200">
                   <thead className="bg-slate-50">
@@ -341,7 +320,6 @@ const OrderManagement = () => {
   );
 };
 
-// Stat Card Component with AdminUsers styling
 const StatCard = ({ icon, label, value, subtitle, color }) => {
   const colorClasses = {
     indigo: "bg-indigo-100 text-indigo-600",

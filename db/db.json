@@ -7,9 +7,6 @@
       "password": "admin123",
       "role": "admin",
       "isBlock": false,
-      "cart": [],
-      "orders": [],
-      "wishlist": [],
       "created_at": "2025-09-29T04:42:28.334Z"
     },
     {
@@ -136,7 +133,7 @@
           },
           "paymentMethod": "cash",
           "created_at": "2025-09-29T06:06:14.712Z",
-          "status": "processing"
+          "status": "shipped"
         },
         {
           "id": "order_1759126418874",
@@ -291,6 +288,37 @@
           },
           "paymentMethod": "card",
           "created_at": "2025-10-03T09:50:45.523Z",
+          "status": "pending"
+        },
+        {
+          "id": "order_1759689070136",
+          "items": [
+            {
+              "id": "p0020",
+              "name": "Apple Macbook Pro M4",
+              "description": "Apple Macbook Pro | M4 Pro | 14.2 inch | 24 GB | 1 TB | Silver | MX2F3HN/A.",
+              "price": 59900,
+              "count": 10,
+              "highlight": false,
+              "category": "Laptop",
+              "images": [
+                "https://www.myg.in/images/thumbnails/600/600/detailed/102/apple-macbook-pro-m4-pro-chip-with-14-core-cpu-and-20-core-gpu-mac-os-laptop-14-inch-mx2f3hn-a-silver-24gb-1tb-front-view.png.png"
+              ],
+              "isActive": true,
+              "created_at": "2025-09-19T10:30:00.000Z",
+              "quantity": 1
+            }
+          ],
+          "total": 59900,
+          "shippingInfo": {
+            "fullName": "ansif",
+            "address": "mangattukavungal",
+            "city": "malapuram",
+            "state": "kerala",
+            "zipCode": "654565"
+          },
+          "paymentMethod": "cash",
+          "created_at": "2025-10-05T18:31:10.136Z",
           "status": "pending"
         }
       ],
@@ -508,7 +536,7 @@
       "name": "iPhone 17 Pro",
       "description": "iPhone 17 Pro – Powerful A19 chip, ProMotion OLED display, and advanced triple-camera system.",
       "price": 189999,
-      "count": 13,
+      "count": 14,
       "highlight": true,
       "category": "Smartphone",
       "images": [
@@ -766,7 +794,7 @@
       "name": "Apple Macbook Pro M4",
       "description": "Apple Macbook Pro | M4 Pro | 14.2 inch | 24 GB | 1 TB | Silver | MX2F3HN/A.",
       "price": 59900,
-      "count": 10,
+      "count": 8,
       "highlight": false,
       "category": "Laptop",
       "images": [

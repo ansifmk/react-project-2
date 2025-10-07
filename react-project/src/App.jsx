@@ -93,16 +93,6 @@ function AppContent() {
           }
         />
         <Route path="/about" element={<About />} />
-
-        {/* ✅ Admin layout with sidebar + dashboard */}
-        {/* <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute allowedRoles={["admin"]}>
-              <AdminLayout />
-            </ProtectedRoute>
-          }
-        /> */}
         <Route
           path="/dashboard/*"
           element={

@@ -36,8 +36,10 @@ const Cart = () => {
         updatedQuantity = 10;
         setLimitReached((prev) => ({ ...prev, [productId]: true }));
       }
-
-      const updatedCart =
+if (updatedQuantity < 1) {
+  updatedQuantity = 1;
+}
+    const updatedCart =
         updatedQuantity <= 0
           ? user.cart.filter((item) => item.id !== productId)
           : user.cart.map((item) =>

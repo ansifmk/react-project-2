@@ -1,23 +1,15 @@
 import React, { useContext } from "react";
-import {
-  Home,
-  Users,
-  Package,
-  Lock,
-  LogOut,
-  User,
-  ChevronRight,
-} from "lucide-react";
+import { Home, Users, Package, Lock, LogOut, User, ChevronRight,} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Context/Authcontext"; // Adjust the path as needed
+import { AuthContext } from "../../Context/Authcontext"; 
 
 const Sidebar = ({ expanded, setExpanded }) => {
   const navigate = useNavigate();
-  const { logout, user } = useContext(AuthContext); // Get user from context
+  const { logout, user } = useContext(AuthContext);
 
   const handleLogout = () => {
-    logout(); // Clear user from context and localStorage
-    navigate("/login", { replace: true }); // Navigate to login page
+    logout(); 
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -26,9 +18,7 @@ const Sidebar = ({ expanded, setExpanded }) => {
         expanded ? "w-56" : "w-16"
       }`}
     >
-      {/* Top Section */}
       <div>
-        {/* Expand Button */}
         <div className="flex justify-center items-center py-4">
           <button
             onClick={() => setExpanded(!expanded)}
@@ -41,8 +31,6 @@ const Sidebar = ({ expanded, setExpanded }) => {
             />
           </button>
         </div>
-
-        {/* User Info Section */}
         <div className="flex flex-col items-center my-4">
           <div className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-500">
             <User className="h-6 w-6" />
@@ -59,7 +47,6 @@ const Sidebar = ({ expanded, setExpanded }) => {
           )}
         </div>
 
-        {/* Menu Items */}
         <nav className="mt-6 space-y-2">
           <NavItem
             expanded={expanded}
@@ -88,7 +75,6 @@ const Sidebar = ({ expanded, setExpanded }) => {
         </nav>
       </div>
 
-      {/* Bottom Logout */}
       <div className="mb-4">
         <NavItem
           expanded={expanded}

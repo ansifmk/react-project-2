@@ -37,113 +37,163 @@ const AdminDashboard = () => {
       setLoading(false);
     }
   };
+const totalUsers = users.length;
+const totalProducts = products.length;
 
-  // Calculate statistics
-  const totalUsers = users.length;
-  const totalProducts = products.length;
-  
-  const allOrders = users.flatMap(user => user.orders || []);
-  const totalOrders = allOrders.length;
-  
-  const totalRevenue = allOrders.reduce((sum, order) => sum + (order.total || 0), 0);
+ let allOrders = [];
+users.forEach(user => {
+  if (user.orders) {
+    allOrders = allOrders.concat(user.orders);
+  }
+});
 
-  // Order distribution by status
-  const ordersByStatus = allOrders.reduce((acc, order) => {
-    const status = order.status || 'pending';
-    acc[status] = (acc[status] || 0) + 1;
-    return acc;
-  }, {});
+const totalOrders = allOrders.length;
+let totalRevenue = 0;
+allOrders.forEach(order => {
+  totalRevenue += order.total || 0;
+});
 
-  const orderDistributionData = Object.entries(ordersByStatus).map(([status, count]) => ({
+const orderCount = {};
+allOrders.forEach(order => {
+  const status = order.status || 'pending';
+  if (orderCount[status]) {
+    orderCount[status] += 1;
+  } else {
+    orderCount[status] = 1;
+  }
+});
+
+const orderDistributionData = Object.keys(orderCount).map(status => {
+  return {
     name: status,
-    value: count
-  }));
+    value: orderCount[status]
+  };
+});
 
-  const COLORS = ['#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#6366f1'];
+const COLORS = ['#8b5cf6', '#10b981', '#f59e0b', '#ef4444', '#6366f1'];
 
-  // Order trend by date
-  const orderTrend = allOrders.reduce((acc, order) => {
-    const date = new Date(order.created_at).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' });
-    acc[date] = (acc[date] || 0) + 1;
-    return acc;
-  }, {});
+const orderTrendData = [];
+const dateCount = {};
+for (let i = 0; i < allOrders.length; i++) {
+  const order = allOrders[i];
 
-  const orderTrendData = Object.entries(orderTrend)
-    .sort((a, b) => new Date(a[0]) - new Date(b[0]))
-    .map(([date, count]) => ({ date, orders: count }));
-
-  // Revenue trend by date
-  const revenueTrend = allOrders.reduce((acc, order) => {
-    const date = new Date(order.created_at).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' });
-    acc[date] = (acc[date] || 0) + (order.total || 0);
-    return acc;
-  }, {});
-
-  const revenueTrendData = Object.entries(revenueTrend)
-    .sort((a, b) => new Date(a[0]) - new Date(b[0]))
-    .map(([date, revenue]) => ({ date, revenue: revenue / 1000 }));
-
-  // Top selling products today
-  const today = new Date().toDateString();
-  const todayOrders = allOrders.filter(order => 
-    new Date(order.created_at).toDateString() === today
-  );
-
-  const productSalesToday = todayOrders.flatMap(order => order.items || [])
-    .reduce((acc, item) => {
-      acc[item.name] = (acc[item.name] || 0) + (item.quantity || 1);
-      return acc;
-    }, {});
-
-  const topSellingToday = Object.entries(productSalesToday)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([name, quantity]) => ({ name, quantity }));
-
-  // Top selling products this week
-  const weekAgo = new Date();
-  weekAgo.setDate(weekAgo.getDate() - 7);
-  const weekOrders = allOrders.filter(order => 
-    new Date(order.created_at) >= weekAgo
-  );
-
-  const productSalesWeek = weekOrders.flatMap(order => order.items || [])
-    .reduce((acc, item) => {
-      acc[item.name] = (acc[item.name] || 0) + (item.quantity || 1);
-      return acc;
-    }, {});
-
-  const topSellingWeek = Object.entries(productSalesWeek)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 5)
-    .map(([name, quantity]) => ({ name, quantity }));
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-solid border-indigo-600 border-r-transparent mb-4"></div>
-          <div className="text-xl font-semibold text-slate-700">Loading dashboard...</div>
-        </div>
-      </div>
-    );
+  const date = new Date(order.created_at).toLocaleDateString();
+  if (dateCount[date]) {
+    dateCount[date] = dateCount[date] + 1;
+  } else {
+    dateCount[date] = 1;
   }
+}
 
-  if (error) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 flex items-center justify-center">
-        <div className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-md">
-          <div className="text-xl font-semibold text-red-600 mb-4">Error: {error}</div>
-          <button 
-            onClick={fetchData}
-            className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    );
+for (let date in dateCount) {
+  orderTrendData.push({
+    date: date,
+    orders: dateCount[date]
+  });
+}
+
+const revenueTrendData = [];
+const revenueByDate = {};
+
+for (let i = 0; i < allOrders.length; i++) {
+  const order = allOrders[i];
+  const date = new Date(order.created_at).toLocaleDateString();
+
+  if (revenueByDate[date]) {
+    revenueByDate[date] += order.total || 0;
+  } else {
+    revenueByDate[date] = order.total || 0;
   }
+}
+
+for (let date in revenueByDate) {
+  revenueTrendData.push({
+    date: date,
+    revenue: revenueByDate[date] / 1000
+  });
+}
+
+revenueTrendData.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+const today = new Date().toDateString();
+let productSalesToday = {};
+
+for (let i = 0; i < allOrders.length; i++) {
+  const order = allOrders[i];
+  if (new Date(order.created_at).toDateString() === today) {
+    const items = order.items || [];
+    for (let j = 0; j < items.length; j++) {
+      const item = items[j];
+      if (productSalesToday[item.name]) {
+        productSalesToday[item.name] += item.quantity || 1;
+      } else {
+        productSalesToday[item.name] = item.quantity || 1;
+      }
+    }
+  }
+}
+
+let topSellingToday = [];
+for (let name in productSalesToday) {
+  topSellingToday.push({ name: name, quantity: productSalesToday[name] });
+}
+topSellingToday.sort((a, b) => b.quantity - a.quantity);
+topSellingToday = topSellingToday.slice(0, 5);
+
+const weekAgo = new Date();
+weekAgo.setDate(weekAgo.getDate() - 7);
+
+let productSalesWeek = {};
+
+for (let i = 0; i < allOrders.length; i++) {
+  const order = allOrders[i];
+  if (new Date(order.created_at) >= weekAgo) {
+    const items = order.items || [];
+    for (let j = 0; j < items.length; j++) {
+      const item = items[j];
+      if (productSalesWeek[item.name]) {
+        productSalesWeek[item.name] += item.quantity || 1;
+      } else {
+        productSalesWeek[item.name] = item.quantity || 1;
+      }
+    }
+  }
+}
+let topSellingWeek = [];
+for (let name in productSalesWeek) {
+  topSellingWeek.push({ name: name, quantity: productSalesWeek[name] });
+}
+
+topSellingWeek.sort((a, b) => b.quantity - a.quantity);
+topSellingWeek = topSellingWeek.slice(0, 5);
+
+if (loading) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="text-center">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-indigo-600 border-r-transparent mb-4"></div>
+        <div className="text-xl font-semibold text-slate-700">Loading dashboard...</div>
+      </div>
+    </div>
+  );
+}
+
+if (error) {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-md">
+        <div className="text-xl font-semibold text-red-600 mb-4">Error: {error}</div>
+        <button 
+          onClick={fetchData}
+          className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl font-medium"
+        >
+          Retry
+        </button>
+      </div>
+    </div>
+  );
+}
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-4 sm:p-6 lg:p-8">
@@ -153,7 +203,6 @@ const AdminDashboard = () => {
           <p className="text-slate-600 text-sm">Monitor your business performance at a glance</p>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
           <div className="bg-green-100 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-6 border border-slate-100 hover:scale-105">
             <div className="flex items-center justify-between mb-4">
@@ -202,7 +251,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Top Selling */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
             <div className="flex items-center justify-between mb-6">
@@ -257,7 +305,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Charts */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
             <h2 className="text-xl font-bold text-slate-800 mb-6">Order Trend</h2>
@@ -319,7 +366,6 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Order Distribution */}
         <div className="bg-white rounded-2xl shadow-lg p-6 border border-slate-100">
           <h2 className="text-xl font-bold text-slate-800 mb-6">Order Distribution</h2>
           {orderDistributionData.length > 0 ? (
